@@ -21,8 +21,8 @@ const Layout = ({ children }) => (
         <Helmet
           title={data.site.siteMetadata.title}
           meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' },
+            { name: 'description', content: 'Streamlabs TTS Emulator. You can use this site to convert text-to-speech with any of Streamlabs voices.' },
+            { name: 'keywords', content: 'streamlabs, text to speech, tts, twitchtv, xqc, simulator, emulator, twitch, donation, subscriber, follower, text-to-speech, software' },
           ]}
         >
           <html lang="en" />
