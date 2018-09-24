@@ -4,7 +4,7 @@
 
 This is a text to speech emulator powered by Streamlabs' unofficial API. It converts your text to speech with any of Streamlab's voices. The frontend is completely static, backend is powered by serverless Node.js Lambda functions.
 
-[Streamlabs](https://streamlabs.com) is a live streaming software based on [OBS (Open Broadcast Software)](https://obsproject.com). Many [Twitch.tv](https://twitch.tv) streamers use it to read follower, donation, and subscriber updates while they're in game. This website is useful because it allows you to see what your donation TTS will sound like on stream, *before* you make it!
+[Streamlabs](https://streamlabs.com) is a live streaming software based on [OBS (Open Broadcast Software)](https://obsproject.com). Many [Twitch.tv](https://twitch.tv) streamers use it to read follower, donation, and subscriber updates while they're in game. This website is allows you to test any of Streamlabs' TTS voices with a simple web interface.
 
 ## Features
 - Serverless backend powered by [Google Cloud Functions](https://cloud.google.com/functions)
