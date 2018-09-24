@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
-
+import PogChamp from '../images/pogchamp.png'
 // Lambda Cloud Function API
 const API = 'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 class Index extends React.Component {
@@ -62,7 +62,7 @@ class Index extends React.Component {
           many <a href="https://twitch.tv">Twitch.tv</a> streamers. You can use this
           to see how your donation's text-to-speech reading will sound. Check
           out <a href="https://github.com/petercunha/streamlabs-tts">the source code for this website</a> on my GitHub,
-          it is <img align="center" src="https://static-cdn.jtvnw.net/emoticons/v1/88/1.0" alt="PogChamp" />
+          it is <img align="center" src={PogChamp} alt="PogChamp" />
         </p>
         <br />
         <form onSubmit={this.handleSubmit} style={{ backgroundColor: 'lightgray', padding: '15px' }}>
