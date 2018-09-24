@@ -11,6 +11,12 @@ exports.tts = (req, res) => {
     res.set('Access-Control-Allow-Methods', 'GET, POST')
     res.set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
 
+    // Intercept non-POST requests
+    if (req.method != 'POST') {
+        res.send('ok')
+        return
+    }
+
     // Import request module
     const request = require('request')
 
