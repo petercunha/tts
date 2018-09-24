@@ -9,4 +9,4 @@ This is a text-to-speech emulator powered by Streamlabs' unofficial API. It conv
 - Served over HTTPS
 
 ## Demo
-You can visit the website to see it in action: https://streamlabs-tts.surge.sh
+[Click here to demo](https://streamlabs-tts.surge.sh)
