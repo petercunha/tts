@@ -14,4 +14,4 @@ This is a text to speech emulator powered by Streamlabs' unofficial API. It conv
 - Served over HTTPS
 
 ## Demo
-[**Click here to visit the website**](https://streamlabs-tts.surge.sh)
+[**Click here to visit the website**](https://streamlabs.surge.sh)
