@@ -6,11 +6,19 @@
  */
 
 exports.tts = (req, res) => {
+    // Enable CORS
+    res.set('Access-Control-Allow-Origin', "*")
+    res.set('Access-Control-Allow-Methods', 'GET, POST')
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
+
+    // Import request module
     const request = require('request')
 
+    // Prepare request params for Streamlabs
     let voice = req.body.voice || 'Brian'
     let text = req.body.text || 'Please select a voice and message.'
 
+    // Send request to Streamlabs' API server
     request.post(
         'https://streamlabs.com/polly/speak',
         { json: { voice: voice, text: text } },
