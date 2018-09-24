@@ -1,4 +1,4 @@
-# Streamlabs TTS Emulator
+# Text to Speech
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 
@@ -14,4 +14,4 @@ This is a text to speech emulator powered by Streamlabs' unofficial API. It conv
 - Served over HTTPS
 
 ## Demo
-[**Click here to visit the website**](https://streamlabs.surge.sh)
+[**Click here to visit the website**](https://textreader.surge.sh)
