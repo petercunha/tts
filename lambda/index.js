@@ -6,17 +6,21 @@
  */
 
 exports.tts = (req, res) => {
-    // Enable CORS
-    res.set('Access-Control-Allow-Origin', "*")
+    // Enable CORS for each of the subdomains
+	const allowedOrigins = ['https://streamlabs.surge.sh', 'https://streamlabs-tts.surge.sh', 'https://textreader.surge.sh'];
+	const origin = req.headers.origin;
+	if (allowedOrigins.indexOf(origin) > -1){
+		res.setHeader('Access-Control-Allow-Origin', origin);
+	}
     res.set('Access-Control-Allow-Methods', 'GET, POST')
     res.set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With')
 
-    // Intercept non-POST requests
-    if (req.method != 'POST') {
-        res.send('ok')
-        return
+  	// Intercept non-POST requests
+  	if (req.method != 'POST') {
+      res.send('ok')
+      return
     }
-
+  
     // Import request module
     const request = require('request')
 
@@ -41,4 +45,15 @@ exports.tts = (req, res) => {
             }
         }
     )
+  
+ 	// Log output to console
+  	const jsonLog = {
+    	payload: {
+        	voice: voice,
+          	text: text
+        },
+		requestOrigin: origin,
+      	requestIP: req.ip
+    }
+  	console.log('Request Log:\n' + JSON.stringify(jsonLog))
 }
