@@ -3,6 +3,12 @@ module.exports = {
     title: 'Streamlabs TTS Emulator',
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: 'UA-126988101-1',
+      }
+    },
     'gatsby-plugin-react-helmet',
     {
       resolve: `gatsby-plugin-manifest`,
