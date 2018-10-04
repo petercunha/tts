@@ -5,29 +5,29 @@ import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
 import PogChamp from '../images/pogchamp.png'
 // Lambda Cloud Function API
-const API = 'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+const API =
+  'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 class Index extends React.Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       text: '',
       voice: 'Brian',
       loading: null,
-      audioUrl: ''
-    };
+      audioUrl: '',
+    }
 
-    this.handleTextChange = this.handleTextChange.bind(this);
-    this.handleVoiceChange = this.handleVoiceChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this)
+    this.handleVoiceChange = this.handleVoiceChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleTextChange(event) {
-    this.setState({ text: event.target.value });
+    this.setState({ text: event.target.value })
   }
 
   handleVoiceChange(event) {
-    this.setState({ voice: event.target.value });
+    this.setState({ voice: event.target.value })
   }
 
   handleSubmit(event) {
@@ -35,10 +35,11 @@ class Index extends React.Component {
 
     const payload = {
       text: this.state.text,
-      voice: this.state.voice
+      voice: this.state.voice,
     }
 
-    axios.post(API, payload)
+    axios
+      .post(API, payload)
       .then(res => {
         let response = res.data
         if (response.success) {
@@ -50,7 +51,7 @@ class Index extends React.Component {
         this.setState({ loading: null })
       })
 
-    event.preventDefault();
+    event.preventDefault()
   }
 
   render() {
@@ -58,18 +59,33 @@ class Index extends React.Component {
       <Layout>
         <h3>Streamlabs Text-to-Speech Emulator</h3>
         <p>
-          This is a simple web application that emulates Streamlabs' TTS feature used by
-          many <a href="https://twitch.tv">Twitch.tv</a> streamers. You can use this
-          to see how your donation's text-to-speech reading will sound. Check
-          out <a href="https://github.com/petercunha/streamlabs-tts">the source code for this website</a> on my GitHub,
-          it is <img align="center" src={PogChamp} alt="PogChamp" />
+          This is a simple web application that emulates Streamlabs' TTS feature
+          used by many <a href="https://twitch.tv">Twitch.tv</a> streamers. You
+          can use this to see how your donation's text-to-speech reading will
+          sound. Check out{' '}
+          <a href="https://github.com/petercunha/streamlabs-tts">
+            the source code for this website
+          </a>{' '}
+          on my GitHub, it is{' '}
+          <img align="center" src={PogChamp} alt="PogChamp" />
         </p>
         <br />
-        <form onSubmit={this.handleSubmit} style={{ backgroundColor: 'lightgray', padding: '15px' }}>
-
+        <form
+          onSubmit={this.handleSubmit}
+          style={{ 
+            backgroundColor: '#d3d3d370', 
+            padding: '1em',
+            borderRadius: '0.4em',
+          }}
+        >
           <div>
             <span>Text: </span>
-            <input type="text" value={this.state.text} onChange={this.handleTextChange} style={{ width: '90%' }} />
+            <input
+              type="text"
+              value={this.state.text}
+              onChange={this.handleTextChange}
+              style={{ width: '90%' }}
+            />
           </div>
           <div style={{ marginTop: '5px' }}>
             <span>Voice: </span>
@@ -90,7 +106,7 @@ class Index extends React.Component {
             </select>
           </div>
 
-          <div style={{ marginTop: '15px' }} >
+          <div style={{ marginTop: '15px' }}>
             <input type="submit" value="Play" disabled={this.state.loading} />
           </div>
         </form>
@@ -98,12 +114,14 @@ class Index extends React.Component {
         <br />
         <ReactAudioPlayer
           src={this.state.audioUrl}
-          style={{ visibility: this.state.audioUrl !== '' ? 'visible' : 'hidden' }}
+          style={{
+            visibility: this.state.audioUrl !== '' ? 'visible' : 'hidden',
+          }}
           autoPlay
           controls
         />
-      </Layout >
-    );
+      </Layout>
+    )
   }
 }
 
