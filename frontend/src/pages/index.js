@@ -59,10 +59,10 @@ class Index extends React.Component {
       <Layout>
         <h3>Streamlabs Text-to-Speech Emulator</h3>
         <p>
-          This is a simple web application that emulates Streamlabs' TTS feature
+          This is a simple web application that emulates the Streamlabs TTS feature
           used by many <a href="https://twitch.tv">Twitch.tv</a> streamers. You
-          can use this to see how your donation's text-to-speech reading will
-          sound. Check out{' '}
+          can use this to hear how your donation's text-to-speech will sound. 
+          Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
             the source code for this website
           </a>{' '}
@@ -97,12 +97,16 @@ class Index extends React.Component {
               <option value="Nicole">Nicole</option>
               <option value="Emma">Emma</option>
               <option value="Amy">Amy</option>
-              <option value="Raveena">Raveena</option>
               <option value="Joanna">Joanna</option>
               <option value="Salli">Salli</option>
               <option value="Kimberly">Kimberly</option>
               <option value="Kendra">Kendra</option>
               <option value="Joey">Joey</option>
+              <option value="Mizuki">Mizuki (Japanese)</option>
+              <option value="Chantal">Chantal (French)</option>
+              <option value="Mathieu">Mathieu (French)</option>
+              <option value="Maxim">Maxim (Russian)</option>
+              <option value="Raveena">Raveena (Indian)</option>
             </select>
           </div>
 
