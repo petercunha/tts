@@ -83,6 +83,7 @@ class Index extends React.Component {
             <input
               type="text"
               value={this.state.text}
+              maxlength="300"
               onChange={this.handleTextChange}
               style={{ width: '90%' }}
             />
@@ -115,7 +116,8 @@ class Index extends React.Component {
           </div>
         </form>
 
-        <br />
+        <p>Text has a maximum length of 300 characters.</p>
+
         <ReactAudioPlayer
           src={this.state.audioUrl}
           style={{
