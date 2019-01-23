@@ -61,7 +61,7 @@ class Index extends React.Component {
         <p>
           This is a simple web application that emulates the Streamlabs TTS feature
           used by many <a href="https://twitch.tv">Twitch.tv</a> streamers. You
-          can use this to hear how your donation's text-to-speech will sound. 
+          can use this to hear how your donation's text-to-speech will sound.
           Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
             the source code for this website
@@ -72,8 +72,8 @@ class Index extends React.Component {
         <br />
         <form
           onSubmit={this.handleSubmit}
-          style={{ 
-            backgroundColor: '#d3d3d370', 
+          style={{
+            backgroundColor: '#d3d3d370',
             padding: '1em',
             borderRadius: '0.4em',
           }}
@@ -116,7 +116,7 @@ class Index extends React.Component {
           </div>
         </form>
 
-        <br>
+        <br />
 
         <ReactAudioPlayer
           src={this.state.audioUrl}
