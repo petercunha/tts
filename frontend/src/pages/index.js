@@ -116,7 +116,7 @@ class Index extends React.Component {
           </div>
         </form>
 
-        <p>Text has a maximum length of 300 characters.</p>
+        <br>
 
         <ReactAudioPlayer
           src={this.state.audioUrl}
