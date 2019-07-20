@@ -21,6 +21,7 @@ class Index extends React.Component {
       voice: 'Brian',
       buttonText: 'Play',
       buttonLoading: false,
+      showNotice: true,
       warningText: '',
       audioUrl: '',
     }
@@ -175,7 +176,10 @@ class Index extends React.Component {
           controls
         />
 
-        <p className="footer">
+        <p
+          className="footer"
+          style={{ display: this.state.showNotice ? 'block' : 'none' }}
+        >
           <b>
             <img
               style={{
@@ -188,6 +192,22 @@ class Index extends React.Component {
             ></img>
             Please don't use this tool to harass streamers{' '}
           </b>
+          <button
+            style={{
+              marginLeft: '5px',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              font: 'inherit',
+              color: 'blue',
+              cursor: 'pointer',
+            }}
+            onClick={event => {
+              this.setState({ showNotice: false })
+            }}
+          >
+            [Okay, I won't]
+          </button>
         </p>
       </Layout>
     )
