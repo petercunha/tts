@@ -43,20 +43,6 @@ class Index extends React.Component {
     // Rate limit the button
     this.setState({ buttonLoading: true })
 
-    let count = 0
-    let timer = setInterval(() => {
-      this.setState({
-        buttonText: `Please wait ${this.state.cooldown -
-          Math.floor(count * 0.1)}s`,
-      })
-      count++
-
-      if (count >= this.state.cooldown * 10) {
-        this.setState({ buttonText: 'Play', buttonLoading: false })
-        clearInterval(timer)
-      }
-    }, 100)
-
     const payload = {
       text: this.state.text,
       voice: this.state.voice,
@@ -81,6 +67,21 @@ class Index extends React.Component {
             COOLDOWN} seconds.`,
           cooldown: prev.cooldown + COOLDOWN,
         }))
+      })
+      .finally(() => {
+        let count = 0
+        let timer = setInterval(() => {
+          this.setState({
+            buttonText: `Please wait ${this.state.cooldown -
+              Math.floor(count * 0.1)}s`,
+          })
+          count++
+
+          if (count >= this.state.cooldown * 10) {
+            this.setState({ buttonText: 'Play', buttonLoading: false })
+            clearInterval(timer)
+          }
+        }, 100)
       })
 
     event.preventDefault()
