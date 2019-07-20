@@ -153,7 +153,7 @@ class Index extends React.Component {
           <b>
             <img
               style={{
-                height: '30px',
+                height: '25px',
                 verticalAlign: 'middle',
                 marginRight: '5px',
               }}
