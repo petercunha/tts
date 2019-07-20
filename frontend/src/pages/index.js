@@ -3,17 +3,23 @@ import axios from 'axios'
 
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
-import PogChamp from '../images/pogchamp.png'
+import xqcL from '../images/xqcL.png'
+
 // Lambda Cloud Function API
 const API =
   'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+
+// How many seconds a user must wait after using TTS
+const COOLDOWN = 4
+
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       text: '',
       voice: 'Brian',
-      loading: null,
+      buttonText: 'Play',
+      buttonLoading: false,
       audioUrl: '',
     }
 
@@ -31,7 +37,21 @@ class Index extends React.Component {
   }
 
   handleSubmit(event) {
-    this.setState({ loading: true })
+    // Rate limit the button
+    this.setState({ buttonLoading: true })
+
+    let count = 0
+    let timer = setInterval(() => {
+      this.setState({
+        buttonText: `Please wait ${COOLDOWN - Math.floor(count * 0.1)}s`,
+      })
+      count++
+
+      if (count >= COOLDOWN * 10) {
+        this.setState({ buttonText: 'Play', buttonLoading: false })
+        clearInterval(timer)
+      }
+    }, 100)
 
     const payload = {
       text: this.state.text,
@@ -43,12 +63,11 @@ class Index extends React.Component {
       .then(res => {
         let response = res.data
         if (response.success) {
-          this.setState({ audioUrl: response.speak_url, loading: null })
+          this.setState({ audioUrl: response.speak_url })
         }
       })
       .catch(err => {
         console.log('We got an error:', err)
-        this.setState({ loading: null })
       })
 
     event.preventDefault()
@@ -59,15 +78,14 @@ class Index extends React.Component {
       <Layout>
         <h3>Streamlabs Text-to-Speech Emulator</h3>
         <p>
-          This is a simple web application that emulates the Streamlabs TTS feature
-          used by many <a href="https://twitch.tv">Twitch.tv</a> streamers. You
-          can use this to hear how your donation's text-to-speech will sound.
-          Check out{' '}
+          This is a simple web application that emulates the Streamlabs TTS
+          feature used by many <a href="https://twitch.tv">Twitch.tv</a>{' '}
+          streamers. You can use this to hear how your donation's text-to-speech
+          will sound. Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
-            the source code for this website
+            the source code
           </a>{' '}
-          on my GitHub, it is{' '}
-          <img align="center" src={PogChamp} alt="PogChamp" />
+          for this website on my GitHub, it's poggy woggy.
         </p>
         <br />
         <form
@@ -112,7 +130,11 @@ class Index extends React.Component {
           </div>
 
           <div style={{ marginTop: '15px' }}>
-            <input type="submit" value="Play" disabled={this.state.loading} />
+            <input
+              type="submit"
+              value={this.state.buttonText}
+              disabled={this.state.buttonLoading}
+            />
           </div>
         </form>
 
@@ -126,6 +148,21 @@ class Index extends React.Component {
           autoPlay
           controls
         />
+
+        <p className="footer">
+          <b>
+            <img
+              style={{
+                height: '30px',
+                verticalAlign: 'middle',
+                marginRight: '5px',
+              }}
+              alt="xqcL"
+              src={xqcL}
+            ></img>
+            Please don't use this tool to harass streamers{' '}
+          </b>
+        </p>
       </Layout>
     )
   }
