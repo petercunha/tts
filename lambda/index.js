@@ -9,12 +9,8 @@ const request = require('request');
  */
 
 exports.tts = (req, res) => {
-	// Enable CORS for each of the subdomains
-	const allowedOrigins = ['https://textreader.pro'];
-	const origin = req.headers.origin;
-	if (allowedOrigins.indexOf(origin) > -1) {
-		res.setHeader('Access-Control-Allow-Origin', origin);
-	}
+	// Enable CORS
+	res.set('Access-Control-Allow-Origin', '*');
 	res.set('Access-Control-Allow-Methods', 'GET, POST');
 	res.set(
 		'Access-Control-Allow-Headers',
@@ -55,7 +51,6 @@ exports.tts = (req, res) => {
 			voice: voice,
 			text: text
 		},
-		requestOrigin: origin,
 		requestIP: req.ip
 	};
 	console.log('Request Log:\n' + JSON.stringify(jsonLog));

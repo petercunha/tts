@@ -10,16 +10,18 @@ const API =
   'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 
 // How many seconds a user must wait after using TTS
-const COOLDOWN = 4
+const COOLDOWN = 3
 
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      cooldown: COOLDOWN,
       text: '',
       voice: 'Brian',
       buttonText: 'Play',
       buttonLoading: false,
+      warningText: '',
       audioUrl: '',
     }
 
@@ -43,11 +45,12 @@ class Index extends React.Component {
     let count = 0
     let timer = setInterval(() => {
       this.setState({
-        buttonText: `Please wait ${COOLDOWN - Math.floor(count * 0.1)}s`,
+        buttonText: `Please wait ${this.state.cooldown -
+          Math.floor(count * 0.1)}s`,
       })
       count++
 
-      if (count >= COOLDOWN * 10) {
+      if (count >= this.state.cooldown * 10) {
         this.setState({ buttonText: 'Play', buttonLoading: false })
         clearInterval(timer)
       }
@@ -63,11 +66,20 @@ class Index extends React.Component {
       .then(res => {
         let response = res.data
         if (response.success) {
-          this.setState({ audioUrl: response.speak_url })
+          this.setState({
+            audioUrl: response.speak_url,
+            cooldown: COOLDOWN,
+            warningText: '',
+          })
         }
       })
       .catch(err => {
         console.log('We got an error:', err)
+        this.setState(prev => ({
+          warningText: `Streamlabs is rate limiting you. Cooldown adjusted to ${prev.cooldown *
+            2} seconds.`,
+          cooldown: prev.cooldown * 2,
+        }))
       })
 
     event.preventDefault()
@@ -96,6 +108,20 @@ class Index extends React.Component {
             borderRadius: '0.4em',
           }}
         >
+          <p
+            style={{
+              margin: '0',
+              color: 'gray',
+              fontFamily: 'italic',
+              textAlign: 'center',
+              marginTop: '5px',
+              marginBottom: '15px',
+              display: this.state.warningText !== '' ? 'block' : 'none',
+            }}
+          >
+            {this.state.warningText}
+          </p>
+
           <div>
             <span>Text: </span>
             <input
