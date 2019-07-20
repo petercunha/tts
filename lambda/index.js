@@ -10,7 +10,8 @@ const request = require('request');
 
 exports.tts = (req, res) => {
 	// Enable CORS
-	res.set('Access-Control-Allow-Origin', '*');
+	res.set('Access-Control-Allow-Origin', 'https://www.textreader.pro');
+	res.set('Access-Control-Allow-Origin', 'https://textreader.pro');
 	res.set('Access-Control-Allow-Methods', 'GET, POST');
 	res.set(
 		'Access-Control-Allow-Headers',

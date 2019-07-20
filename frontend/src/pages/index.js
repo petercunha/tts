@@ -10,7 +10,7 @@ const API =
   'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 
 // How many seconds a user must wait after using TTS
-const COOLDOWN = 3
+const COOLDOWN = 5
 
 class Index extends React.Component {
   constructor(props) {
@@ -77,9 +77,9 @@ class Index extends React.Component {
       .catch(err => {
         console.log('We got an error:', err)
         this.setState(prev => ({
-          warningText: `Streamlabs is rate limiting you. Cooldown adjusted to ${prev.cooldown *
-            2} seconds.`,
-          cooldown: prev.cooldown * 2,
+          warningText: `Streamlabs is rate limiting you. Cooldown adjusted to ${prev.cooldown +
+            COOLDOWN} seconds.`,
+          cooldown: prev.cooldown + COOLDOWN,
         }))
       })
 
