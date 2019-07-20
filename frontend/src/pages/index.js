@@ -9,14 +9,14 @@ import xqcL from '../images/xqcL.png'
 const API =
   'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 
-// How many seconds a user must wait after using TTS
+// How many seconds a user must wait if Streamlabs is rate limiting us
 const COOLDOWN = 5
 
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cooldown: COOLDOWN,
+      cooldown: 0,
       text: '',
       voice: 'Brian',
       buttonText: 'Play',
@@ -67,11 +67,11 @@ class Index extends React.Component {
       .then(res => {
         let response = res.data
         if (response.success) {
-          this.setState({
+          this.setState(prev => ({
             audioUrl: response.speak_url,
-            cooldown: COOLDOWN,
+            cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
             warningText: '',
-          })
+          }))
         }
       })
       .catch(err => {
