@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
   "name": "tts",
   "description": "Streamlabs text-to-speech emulator",
-=======
-  "name": "streamlabs-tts",
-  "description": "Streamlabs TTS Emulator",
->>>>>>> 5c84832d3a9e878d5e39badb2ef8d21c4c53b593
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {
