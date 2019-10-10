@@ -107,6 +107,7 @@ class Index extends React.Component {
               <option value="Chantal">Chantal (French)</option>
               <option value="Mathieu">Mathieu (French)</option>
               <option value="Maxim">Maxim (Russian)</option>
+              <option value="Hans">Hans (German)</option>
               <option value="Raveena">Raveena (Indian)</option>
             </select>
           </div>

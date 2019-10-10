@@ -1,6 +1,6 @@
 {
-  "name": "gatsby-starter-default",
-  "description": "Gatsby default starter",
+  "name": "tts",
+  "description": "Streamlabs text-to-speech emulator",
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {
