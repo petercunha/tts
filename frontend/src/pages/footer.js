@@ -4,15 +4,11 @@ import xqcL from '../images/xqcL.png'
 class Footer extends React.Component {
   constructor(props) {
     // Banner shows only once
-    const bannedDismissed = () => {
-      if (typeof window !== 'undefined')
-        return JSON.parse(localStorage.getItem('dismissed'))
-      return false
-    }
+    const bannerDismissed = isBannerDismissed()
 
     super(props)
     this.state = {
-      showNotice: !bannedDismissed,
+      showNotice: !bannerDismissed,
     }
   }
 
@@ -56,6 +52,12 @@ class Footer extends React.Component {
       </p>
     )
   }
+}
+
+const isBannerDismissed = () => {
+  if (typeof window !== 'undefined')
+    return JSON.parse(localStorage.getItem('dismissed'))
+  return false
 }
 
 export default Footer
