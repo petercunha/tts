@@ -181,7 +181,7 @@ class Index extends React.Component {
         />
 
         {/* Anti-twitch spam banner */}
-        <Footer />
+        {/* <Footer /> */}
       </Layout>
     )
   }
