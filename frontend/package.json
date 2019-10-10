@@ -1,19 +1,24 @@
 {
+<<<<<<< HEAD
   "name": "tts",
   "description": "Streamlabs text-to-speech emulator",
+=======
+  "name": "streamlabs-tts",
+  "description": "Streamlabs TTS Emulator",
+>>>>>>> 5c84832d3a9e878d5e39badb2ef8d21c4c53b593
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {
-    "axios": "^0.18.0",
-    "gatsby": "^2.0.0",
-    "gatsby-plugin-google-analytics": "^2.0.6",
-    "gatsby-plugin-manifest": "^2.0.2",
-    "gatsby-plugin-offline": "^2.0.5",
-    "gatsby-plugin-react-helmet": "^3.0.0",
-    "react": "^16.5.1",
-    "react-audio-player": "^0.10.0",
-    "react-dom": "^16.5.1",
-    "react-helmet": "^5.2.0"
+    "axios": "^0.19.0",
+    "gatsby": "^2.13.31",
+    "gatsby-plugin-google-analytics": "^2.1.4",
+    "gatsby-plugin-manifest": "^2.2.3",
+    "gatsby-plugin-offline": "^2.2.4",
+    "gatsby-plugin-react-helmet": "^3.1.2",
+    "react": "^16.8.6",
+    "react-audio-player": "^0.11.1",
+    "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1"
   },
   "keywords": [
     "gatsby"
@@ -26,7 +31,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "prettier": "^1.14.2"
+    "prettier": "^1.18.2"
   },
   "repository": {
     "type": "git",

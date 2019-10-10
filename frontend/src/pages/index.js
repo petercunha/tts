@@ -3,17 +3,26 @@ import axios from 'axios'
 
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
-import PogChamp from '../images/pogchamp.png'
+import xqcL from '../images/xqcL.png'
+
 // Lambda Cloud Function API
 const API =
   'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+
+// How many seconds a user must wait if Streamlabs is rate limiting us
+const COOLDOWN = 5
+
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      cooldown: 0,
       text: '',
       voice: 'Brian',
-      loading: null,
+      buttonText: 'Play',
+      buttonLoading: false,
+      showNotice: true,
+      warningText: '',
       audioUrl: '',
     }
 
@@ -31,7 +40,8 @@ class Index extends React.Component {
   }
 
   handleSubmit(event) {
-    this.setState({ loading: true })
+    // Rate limit the button
+    this.setState({ buttonLoading: true })
 
     const payload = {
       text: this.state.text,
@@ -43,12 +53,35 @@ class Index extends React.Component {
       .then(res => {
         let response = res.data
         if (response.success) {
-          this.setState({ audioUrl: response.speak_url, loading: null })
+          this.setState(prev => ({
+            audioUrl: response.speak_url,
+            cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
+            warningText: '',
+          }))
         }
       })
       .catch(err => {
         console.log('We got an error:', err)
-        this.setState({ loading: null })
+        this.setState(prev => ({
+          warningText: `Streamlabs is rate limiting you. Cooldown adjusted to ${prev.cooldown +
+            COOLDOWN} seconds.`,
+          cooldown: prev.cooldown + COOLDOWN,
+        }))
+      })
+      .finally(() => {
+        let count = 0
+        let timer = setInterval(() => {
+          this.setState({
+            buttonText: `Please wait ${this.state.cooldown -
+              Math.floor(count * 0.1)}s`,
+          })
+          count++
+
+          if (count >= this.state.cooldown * 10) {
+            this.setState({ buttonText: 'Play', buttonLoading: false })
+            clearInterval(timer)
+          }
+        }, 100)
       })
 
     event.preventDefault()
@@ -59,15 +92,14 @@ class Index extends React.Component {
       <Layout>
         <h3>Streamlabs Text-to-Speech Emulator</h3>
         <p>
-          This is a simple web application that emulates the Streamlabs TTS feature
-          used by many <a href="https://twitch.tv">Twitch.tv</a> streamers. You
-          can use this to hear how your donation's text-to-speech will sound.
-          Check out{' '}
+          This is a simple web application that emulates the Streamlabs TTS
+          feature used by many <a href="https://twitch.tv">Twitch.tv</a>{' '}
+          streamers. You can use this to hear how your donation's text-to-speech
+          will sound. Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
-            the source code for this website
+            the source code
           </a>{' '}
-          on my GitHub, it is{' '}
-          <img align="center" src={PogChamp} alt="PogChamp" />
+          for this website on my GitHub, it's poggy woggy.
         </p>
         <br />
         <form
@@ -78,6 +110,20 @@ class Index extends React.Component {
             borderRadius: '0.4em',
           }}
         >
+          <p
+            style={{
+              margin: '0',
+              color: 'gray',
+              fontFamily: 'italic',
+              textAlign: 'center',
+              marginTop: '5px',
+              marginBottom: '15px',
+              display: this.state.warningText !== '' ? 'block' : 'none',
+            }}
+          >
+            {this.state.warningText}
+          </p>
+
           <div>
             <span>Text: </span>
             <input
@@ -113,7 +159,11 @@ class Index extends React.Component {
           </div>
 
           <div style={{ marginTop: '15px' }}>
-            <input type="submit" value="Play" disabled={this.state.loading} />
+            <input
+              type="submit"
+              value={this.state.buttonText}
+              disabled={this.state.buttonLoading}
+            />
           </div>
         </form>
 
@@ -127,6 +177,40 @@ class Index extends React.Component {
           autoPlay
           controls
         />
+
+        <p
+          className="footer"
+          style={{ display: this.state.showNotice ? 'block' : 'none' }}
+        >
+          <b>
+            <img
+              style={{
+                height: '25px',
+                verticalAlign: 'middle',
+                marginRight: '5px',
+              }}
+              alt="xqcL"
+              src={xqcL}
+            ></img>
+            Please don't use this tool to harass streamers{' '}
+          </b>
+          <button
+            style={{
+              marginLeft: '5px',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              font: 'inherit',
+              color: 'blue',
+              cursor: 'pointer',
+            }}
+            onClick={event => {
+              this.setState({ showNotice: false })
+            }}
+          >
+            [Okay, I won't]
+          </button>
+        </p>
       </Layout>
     )
   }
