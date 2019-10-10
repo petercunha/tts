@@ -3,7 +3,8 @@ import axios from 'axios'
 
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
-import xqcL from '../images/xqcL.png'
+import Footer from './footer'
+import greet from '../lib/greeting'
 
 // Lambda Cloud Function API
 const API =
@@ -21,7 +22,6 @@ class Index extends React.Component {
       voice: 'Brian',
       buttonText: 'Play',
       buttonLoading: false,
-      showNotice: true,
       warningText: '',
       audioUrl: '',
     }
@@ -29,6 +29,9 @@ class Index extends React.Component {
     this.handleTextChange = this.handleTextChange.bind(this)
     this.handleVoiceChange = this.handleVoiceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    // Print message in console
+    greet()
   }
 
   handleTextChange(event) {
@@ -93,9 +96,8 @@ class Index extends React.Component {
         <h3>Streamlabs Text-to-Speech Emulator</h3>
         <p>
           This is a simple web application that emulates the Streamlabs TTS
-          feature used by many <a href="https://twitch.tv">Twitch.tv</a>{' '}
-          streamers. You can use this to hear how your donation's text-to-speech
-          will sound. Check out{' '}
+          feature used by many twitch streamers. You can use this to hear how
+          your donation's text-to-speech will sound. Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
             the source code
           </a>{' '}
@@ -129,7 +131,7 @@ class Index extends React.Component {
             <input
               type="text"
               value={this.state.text}
-              maxlength="300"
+              maxLength="300"
               onChange={this.handleTextChange}
               style={{ width: '90%' }}
             />
@@ -178,39 +180,8 @@ class Index extends React.Component {
           controls
         />
 
-        <p
-          className="footer"
-          style={{ display: this.state.showNotice ? 'block' : 'none' }}
-        >
-          <b>
-            <img
-              style={{
-                height: '25px',
-                verticalAlign: 'middle',
-                marginRight: '5px',
-              }}
-              alt="xqcL"
-              src={xqcL}
-            ></img>
-            Please don't use this tool to harass streamers{' '}
-          </b>
-          <button
-            style={{
-              marginLeft: '5px',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              font: 'inherit',
-              color: 'blue',
-              cursor: 'pointer',
-            }}
-            onClick={event => {
-              this.setState({ showNotice: false })
-            }}
-          >
-            [Okay, I won't]
-          </button>
-        </p>
+        {/* Anti-twitch spam banner */}
+        <Footer />
       </Layout>
     )
   }
