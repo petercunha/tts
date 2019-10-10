@@ -6,8 +6,7 @@ This is a text to speech emulator powered by Streamlabs' unofficial API. It conv
 
 [Streamlabs](https://streamlabs.com) is a live streaming software based on [OBS (Open Broadcast Software)](https://obsproject.com). Many [Twitch.tv](https://twitch.tv) streamers use it to read follower, donation, and subscriber updates while they're in game.
 
-## Website :computer: :earth_americas:
-# [**www.textreader.pro**](https://textreader.pro)
+# [**Website** :computer: :earth_americas:](https://textreader.pro)
 
 ## Features
 - Serverless backend powered by [Google Cloud Functions](https://cloud.google.com/functions)
