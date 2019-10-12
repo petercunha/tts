@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Streamlabs TTS Emulator',
+    title: 'Textreader Pro',
   },
   plugins: [
     {
@@ -13,7 +13,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'Textreader.pro - Streamlabs TTS Emulator',
+        name: 'Textreader Pro: Text to speech reader, powered by the cloud.',
         short_name: 'Textreader.pro',
         start_url: '/',
         background_color: '#663399',
