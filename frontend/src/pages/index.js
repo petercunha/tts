@@ -93,7 +93,7 @@ class Index extends React.Component {
   render() {
     return (
       <Layout>
-        <h3>Streamlabs Text-to-Speech Emulator</h3>
+        <h3>Textreader Pro</h3>
         <p>
           This is a simple web application that emulates the Streamlabs TTS
           feature used by many twitch streamers. You can use this to hear how
