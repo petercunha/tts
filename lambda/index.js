@@ -55,6 +55,6 @@ exports.tts = (req, res) => {
         },
         requestIP: req.ip
     }
-    console.info(`${voice}: ${text}`)
+    console.log(`${voice}: ${text}`)
     console.debug(jsonLog)
 }
