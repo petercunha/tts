@@ -66,7 +66,7 @@ class Index extends React.Component {
       .catch(err => {
         console.log('We got an error:', err)
         this.setState(prev => ({
-          warningText: `Streamlabs is rate limiting you. Cooldown adjusted to ${prev.cooldown +
+          warningText: `Streamlabs is rate limiting our website. Cooldown adjusted to ${prev.cooldown +
             COOLDOWN} seconds.`,
           cooldown: prev.cooldown + COOLDOWN,
         }))
@@ -95,13 +95,12 @@ class Index extends React.Component {
       <Layout>
         <h3>Textreader Pro</h3>
         <p>
-          This is a simple web application that emulates the Streamlabs TTS
-          feature used by many twitch streamers. You can use this to hear how
-          your donation's text-to-speech will sound. Check out{' '}
+          This tool converts text-to-speech with any of Streamlabs' voices. You can use this to hear how
+          your donation's text-to-speech will sound on Twitch. Check out{' '}
           <a href="https://github.com/petercunha/streamlabs-tts">
             the source code
           </a>{' '}
-          for this website on my GitHub, it's poggy woggy.
+          for this website, it's open source.
         </p>
         <br />
         <form
