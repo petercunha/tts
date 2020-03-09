@@ -100,7 +100,10 @@ class Index extends React.Component {
           <a href="https://github.com/petercunha/streamlabs-tts">
             the source code
           </a>{' '}
-          for this website, it's open source.
+          for this website, it's open source!<br />
+          <b>New website features coming soon!</b>
+      
+ 
         </p>
         <br />
         <form
