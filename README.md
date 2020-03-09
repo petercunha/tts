@@ -18,5 +18,4 @@ This is a text to speech emulator powered by Streamlabs' unofficial API. It conv
 ## Code of Conduct
 - Don't abuse the API
 - Don't use this tool to harass streamers with annoying donations
-  - Looking at you, XQC viewers :moyai:
-
+  - pls
