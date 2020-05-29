@@ -7,8 +7,8 @@ import Footer from './footer'
 import greet from '../lib/greeting'
 
 // Lambda Cloud Function API
-const API =
-  'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+const API = 'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+const BACKUP_API = (voice, text) => `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${text}`
 
 // How many seconds a user must wait if Streamlabs is rate limiting us
 const COOLDOWN = 5
@@ -42,6 +42,29 @@ class Index extends React.Component {
     this.setState({ voice: event.target.value })
   }
 
+  // Trys a second API if the first fails
+  handleSubmitBackup() {
+    this.setState(prev => ({
+      audioUrl: BACKUP_API(this.state.voice, this.state.text),
+      cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
+      warningText: '',
+    }), () => {
+      let count = 0
+        let timer = setInterval(() => {
+          this.setState({
+            buttonText: `Please wait ${this.state.cooldown -
+              Math.floor(count * 0.1)}s`,
+          })
+          count++
+
+          if (count >= this.state.cooldown * 10) {
+            this.setState({ buttonText: 'Play', buttonLoading: false })
+            clearInterval(timer)
+          }
+        }, 100)
+    })
+  }
+
   handleSubmit(event) {
     // Rate limit the button
     this.setState({ buttonLoading: true })
@@ -65,11 +88,12 @@ class Index extends React.Component {
       })
       .catch(err => {
         console.log('We got an error:', err)
-        this.setState(prev => ({
-          warningText: `Streamlabs is rate limiting our website. Cooldown adjusted to ${prev.cooldown +
-            COOLDOWN} seconds.`,
-          cooldown: prev.cooldown + COOLDOWN,
-        }))
+        this.handleSubmitBackup()
+        // this.setState(prev => ({
+        //   warningText: `Streamlabs is rate limiting our website. Cooldown adjusted to ${prev.cooldown +
+        //     COOLDOWN} seconds.`,
+        //   cooldown: prev.cooldown + COOLDOWN,
+        // }))
       })
       .finally(() => {
         let count = 0
