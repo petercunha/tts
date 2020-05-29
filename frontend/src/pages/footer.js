@@ -3,12 +3,17 @@ import xqcL from '../images/xqcL.png'
 
 class Footer extends React.Component {
   constructor(props) {
-    // Banner shows only once
-    const bannerDismissed = isBannerDismissed()
-
     super(props)
     this.state = {
-      showNotice: !bannerDismissed,
+      showNotice: false
+    }
+  }
+
+  componentDidMount() {
+    if (!isBannerDismissed()) {
+      this.setState({
+        showNotice: true
+      })
     }
   }
 
@@ -28,36 +33,39 @@ class Footer extends React.Component {
             alt="xqcL"
             src={xqcL}
           ></img>
-          Please don't use this tool to harass streamers{' '}
-        </b>
+          Wanna support the site?{' '}
+        </b> Plant a tree <a href="https://megaseeds.us">by clicking here!</a>
         <button
           style={{
-            marginLeft: '5px',
+            marginLeft: '10px',
             background: 'none',
             border: 'none',
             padding: 0,
             font: 'inherit',
-            color: 'blue',
+            color: 'gray',
             cursor: 'pointer',
+            textDecoration: 'underline',
+            alignContent: 'right'
           }}
           onClick={e => {
             // Prevent notice from showing again
             localStorage.setItem('dismissed', true)
-
             this.setState({ showNotice: false })
           }}
         >
-          [Okay, I won't]
-        </button>
+          [X]
+        </button> 
       </p>
     )
   }
 }
 
 const isBannerDismissed = () => {
-  if (typeof window !== 'undefined')
+  if (typeof window !== 'undefined') {
     return JSON.parse(localStorage.getItem('dismissed'))
-  return false
+  } else {
+    return false
+  }
 }
 
 export default Footer
