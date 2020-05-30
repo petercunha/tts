@@ -12,7 +12,9 @@ class Footer extends React.Component {
   componentDidMount() {
     if (!isBannerDismissed()) {
       this.setState({
-        showNotice: true
+        
+        showNotice: false
+        
       })
     }
   }
