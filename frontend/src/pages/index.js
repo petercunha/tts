@@ -1,13 +1,13 @@
 import React from 'react'
-import axios from 'axios'
-
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
 import Footer from './footer'
 import greet from '../lib/greeting'
+import socketIOClient from 'socket.io-client'
 
 // TTS API
 const API = (voice, text) => `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${text}`
+const ENDPOINT = "http://127.0.0.1:3000";
 
 // How many seconds a user must wait if Streamlabs is rate limiting us
 const COOLDOWN = 5
@@ -29,8 +29,18 @@ class Index extends React.Component {
     this.handleVoiceChange = this.handleVoiceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
+    // Connect to Socket.io
+    // this.setupSockets()
+
     // Print message in console
     greet()
+  }
+
+  setupSockets() {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("update", data => {
+      console.log(data);
+    });
   }
 
   handleTextChange(event) {
