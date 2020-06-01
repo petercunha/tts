@@ -72,13 +72,7 @@ class Index extends React.Component {
         <h3>Textreader Pro</h3>
         <p>
           This tool converts text-to-speech with any of Streamlabs' voices. You can use this to hear how
-          your donation's text-to-speech will sound on Twitch. Check out{' '}
-          <a href="https://github.com/petercunha/streamlabs-tts">
-            the source code
-          </a>{' '}
-          for this website, it's open source.
-      
- 
+          your donation's text-to-speech will sound on Twitch.
         </p>
         <br />
         <form
