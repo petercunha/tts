@@ -1,5 +1,4 @@
 import React from 'react'
-import xqcL from '../images/xqcL.png'
 
 class Footer extends React.Component {
   constructor(props) {
@@ -10,13 +9,11 @@ class Footer extends React.Component {
   }
 
   componentDidMount() {
-    if (!isBannerDismissed()) {
-      this.setState({
-        
-        showNotice: false
-        
-      })
-    }
+    // if (!isBannerDismissed()) {
+    //   this.setState({
+    //     showNotice: false
+    //   })
+    // }
   }
 
   render() {
@@ -25,7 +22,6 @@ class Footer extends React.Component {
         className="footer"
         style={{ display: this.state.showNotice ? 'block' : 'none' }}
       >
-        <b>
           <img
             style={{
               height: '25px',
@@ -34,8 +30,7 @@ class Footer extends React.Component {
             }}
             alt="xqcL"
             src="https://cdn.frankerfacez.com/emoticon/425196/4"
-          ></img>
-        </b>Site isn't working, Streamlabs removed their TTS API. I'll work on a fix this weekend im kinda busy tho lol </a>
+          ></img><a>Site is down, StreamElements removed their API. I'll work on a fix soon™</a>
         <button
           style={{
             marginLeft: '10px',
@@ -63,7 +58,7 @@ class Footer extends React.Component {
 
 const isBannerDismissed = () => {
   if (typeof window !== 'undefined') {
-    return JSON.parse(localStorage.getItem('dismissed'))
+    return !JSON.parse(localStorage.getItem('dismissed'))
   } else {
     return false
   }
