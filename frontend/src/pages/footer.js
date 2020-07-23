@@ -5,7 +5,7 @@ class Footer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showNotice: false
+      showNotice: true
     }
   }
 
@@ -33,10 +33,9 @@ class Footer extends React.Component {
               marginRight: '5px',
             }}
             alt="xqcL"
-            src={xqcL}
+            src="https://cdn.frankerfacez.com/emoticon/425196/4"
           ></img>
-          Wanna support the site?{' '}
-        </b> Plant a tree <a href="https://megaseeds.us">by clicking here!</a>
+        </b>Site isn't working, Streamlabs removed their TTS API. I'll work on a fix this weekend im kinda busy tho lol </a>
         <button
           style={{
             marginLeft: '10px',
