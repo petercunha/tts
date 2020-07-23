@@ -3,11 +3,10 @@ import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
 import Footer from './footer'
 import greet from '../lib/greeting'
-import socketIOClient from 'socket.io-client'
+import axios from 'axios'
 
 // TTS API
-const API = (voice, text) => `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${text}`
-const ENDPOINT = "http://127.0.0.1:3000";
+const API = 'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
 
 // How many seconds a user must wait if Streamlabs is rate limiting us
 const COOLDOWN = 5
@@ -36,13 +35,6 @@ class Index extends React.Component {
     greet()
   }
 
-  setupSockets() {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("update", data => {
-      console.log(data);
-    });
-  }
-
   handleTextChange(event) {
     this.setState({ text: event.target.value })
   }
@@ -55,13 +47,46 @@ class Index extends React.Component {
     // Rate limit the button
     this.setState({ buttonLoading: true })
 
-    this.setState(prev => ({
-      audioUrl: API(this.state.voice, this.state.text),
-      cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
-      warningText: '',
-      buttonText: 'Play',
-      buttonLoading: false
-    }))
+    const payload = {
+      text: this.state.text,
+      voice: this.state.voice,
+    }
+
+    axios
+      .post(API, payload)
+      .then(res => {
+        let response = res.data
+        if (response.success) {
+          this.setState(prev => ({
+            audioUrl: response.speak_url,
+            cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
+            warningText: '',
+          }))
+        }
+      })
+      .catch(err => {
+        console.log('We got an error:', err)
+        this.setState(prev => ({
+          warningText: `Streamlabs is rate limiting our website. Cooldown adjusted to ${prev.cooldown +
+            COOLDOWN} seconds.`,
+          cooldown: prev.cooldown + COOLDOWN,
+        }))
+      })
+      .finally(() => {
+        let count = 0
+        let timer = setInterval(() => {
+          this.setState({
+            buttonText: `Please wait ${this.state.cooldown -
+              Math.floor(count * 0.1)}s`,
+          })
+          count++
+
+          if (count >= this.state.cooldown * 10) {
+            this.setState({ buttonText: 'Play', buttonLoading: false })
+            clearInterval(timer)
+          }
+        }, 100)
+      })
 
     event.preventDefault()
   }
