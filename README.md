@@ -10,8 +10,8 @@ This is a text to speech emulator powered by Streamlabs' unofficial API. It conv
 
 ## Features
 - Serverless backend powered by [Google Cloud Functions](https://cloud.google.com/functions)
-- Static frontend powered by [GatsbyJS](https://www.gatsbyjs.org)
-- Extremely fast TTS processing, powered by [Streamlabs](https://streamlabs.com)
+- Static frontend powered by [GatsbyJS](https://www.gatsbyjs.com)
+- TTS processing powered by [Streamlabs](https://streamlabs.com)
 - More than 10 different voices
 - Served over HTTPS
 
