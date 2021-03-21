@@ -1,4 +1,4 @@
-# Text to Speech ![PogChamp](https://static-cdn.jtvnw.net/emoticons/v1/88/1.0) ![Clap](https://cdn.betterttv.net/emote/55b6f480e66682f576dd94f5/1x)
+# Text to Speech ![PogChamp](https://i.imgur.com/d3KCy5m.png) ![Clap](https://cdn.betterttv.net/emote/55b6f480e66682f576dd94f5/1x)
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 
