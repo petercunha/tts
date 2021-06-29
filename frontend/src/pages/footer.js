@@ -4,16 +4,16 @@ class Footer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showNotice: false
+      showNotice: true
     }
   }
 
   componentDidMount() {
-    // if (!isBannerDismissed()) {
-    //   this.setState({
-    //     showNotice: false
-    //   })
-    // }
+    if (!isBannerDismissed()) {
+      this.setState({
+        showNotice: false
+      })
+    }
   }
 
   render() {
@@ -22,7 +22,7 @@ class Footer extends React.Component {
         className="footer"
         style={{ display: this.state.showNotice ? 'block' : 'none' }}
       >
-          <img
+          {/* <img
             style={{
               height: '25px',
               verticalAlign: 'middle',
@@ -30,7 +30,8 @@ class Footer extends React.Component {
             }}
             alt="xqcL"
             src="https://cdn.frankerfacez.com/emoticon/425196/4"
-          ></img><a>Site is down, StreamElements removed their API. I'll work on a fix soon™</a>
+          ></img> */}
+          Made with <span class="emoji">💙</span> by Telepathy. This website is <a href="https://github.com/petercunha/tts">open source</a>.
         <button
           style={{
             marginLeft: '10px',
@@ -40,7 +41,7 @@ class Footer extends React.Component {
             font: 'inherit',
             color: 'gray',
             cursor: 'pointer',
-            textDecoration: 'underline',
+            textDecoration: 'none',
             alignContent: 'right'
           }}
           onClick={e => {
