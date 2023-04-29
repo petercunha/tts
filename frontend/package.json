@@ -5,7 +5,7 @@
   "author": "Peter Cunha",
   "dependencies": {
     "axios": "^0.21.1",
-    "gatsby": "^3.8.0",
+    "gatsby": "^3.15.0",
     "gatsby-cli": "^3.8.0",
     "gatsby-plugin-google-analytics": "^3.8.0",
     "gatsby-plugin-manifest": "^3.8.0",
