@@ -3,7 +3,6 @@ import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
 import Footer from './footer'
 import greet from '../lib/greeting'
-import axios from 'axios'
 
 // TTS API
 const API = 'https://api.streamelements.com/kappa/v2/speech'

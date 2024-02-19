@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {
-    "axios": "^1.4.0",
     "gatsby": "^5.10.0",
     "gatsby-cli": "^5.10.0",
     "gatsby-plugin-google-analytics": "^5.10.0",
@@ -14,8 +13,7 @@
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
-    "socket.io-client": "^4.6.2"
+    "react-helmet": "^6.1.0"
   },
   "keywords": [
     "gatsby"
@@ -32,6 +30,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/petercunha/tts"
   }
 }
