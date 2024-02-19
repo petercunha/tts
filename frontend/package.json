@@ -1,6 +1,6 @@
 {
   "name": "tts",
-  "description": "Streamlabs text-to-speech emulator",
+  "description": "StreamElements text-to-speech emulator",
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {

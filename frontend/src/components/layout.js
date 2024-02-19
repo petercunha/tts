@@ -24,12 +24,12 @@ const Layout = ({ children }) => (
             {
               name: 'description',
               content:
-                'Streamlabs TTS Emulator. You can use this site to convert text-to-speech with any of Streamlabs voices.',
+                'StreamElements TTS Emulator. You can use this site to convert text-to-speech with any of StreamElements voices.',
             },
             {
               name: 'keywords',
               content:
-                'streamlabs, text to speech, tts, twitchtv, xqc, simulator, emulator, twitch, donation, subscriber, follower, text-to-speech, software',
+                'Streamlabs, StreamElements, text to speech, tts, twitchtv, xqc, simulator, emulator, twitch, donation, subscriber, follower, text-to-speech, software',
             },
           ]}
         >

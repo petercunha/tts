@@ -31,7 +31,7 @@ class Footer extends React.Component {
             alt="xqcL"
             src="https://cdn.frankerfacez.com/emoticon/425196/4"
           ></img> */}
-          Made with <span class="emoji">💙</span> by Telepathy. This website is <a href="https://github.com/petercunha/tts">open source</a>.
+          Made with <span className="emoji">💙</span> by Telepathy. This website is <a href="https://github.com/petercunha/tts">open source</a>.
         <button
           style={{
             marginLeft: '10px',

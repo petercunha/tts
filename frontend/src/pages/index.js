@@ -6,9 +6,9 @@ import greet from '../lib/greeting'
 import axios from 'axios'
 
 // TTS API
-const API = 'https://us-central1-sunlit-context-217400.cloudfunctions.net/streamlabs-tts'
+const API = 'https://api.streamelements.com/kappa/v2/speech'
 
-// How many seconds a user must wait if Streamlabs is rate limiting us
+// How many seconds a user must wait if StreamElements is rate limiting us
 const COOLDOWN = 5
 
 class Index extends React.Component {
@@ -47,27 +47,23 @@ class Index extends React.Component {
     // Rate limit the button
     this.setState({ buttonLoading: true })
 
-    const payload = {
-      text: this.state.text,
-      voice: this.state.voice,
-    }
-
-    axios
-      .post(API, payload)
-      .then(res => {
-        let response = res.data
-        if (response.success) {
-          this.setState(prev => ({
-            audioUrl: response.speak_url,
-            cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
-            warningText: '',
-          }))
-        }
+    fetch(`${API}?voice=${this.state.voice}&text=${this.state.text}`)
+      .then(data => {
+        console.log(data)
+        data.blob().then(bytes => {
+          if (data.status === 200) {
+            this.setState(prev => ({
+              audioUrl: URL.createObjectURL(bytes),
+              cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
+              warningText: '',
+            }))
+          }
+        })
       })
       .catch(err => {
         console.log('We got an error:', err)
         this.setState(prev => ({
-          warningText: `Streamlabs is rate limiting our website. Cooldown adjusted to ${prev.cooldown +
+          warningText: `We're getting some upstream API errors. Cooldown adjusted to ${prev.cooldown +
             COOLDOWN} seconds.`,
           cooldown: prev.cooldown + COOLDOWN,
         }))
@@ -87,7 +83,6 @@ class Index extends React.Component {
           }
         }, 100)
       })
-
     event.preventDefault()
   }
 
@@ -96,7 +91,7 @@ class Index extends React.Component {
       <Layout>
         <h3>Textreader Pro</h3>
         <p>
-          This tool converts text-to-speech with any of Streamlabs' voices. You can use this to hear how
+          This tool converts text-to-speech with any common donation voices. You can use this to hear how
           your donation will sound on Twitch.
         </p>
         <br />

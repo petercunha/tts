@@ -1,9 +1,0 @@
-{
-  "name": "streamlabs-tts",
-  "version": "1.0.0",
-  "description": "Cloud Function to use Streamlabs REST API",
-  "main": "index.js",
-  "dependencies": {
-    "request": "^2.88.0"
-  }
-}
