@@ -2,7 +2,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 
-This is a text to speech emulator powered by StreamElements' API. It converts your text to speech with any StreamElements voices. The frontend is completely static, backend is Node.js running from Google Cloud Functions.
+This is a text to speech emulator powered by StreamElements' API. It converts your text to speech with any StreamElements voices.
 
 [StreamElements](https://StreamElements.com) is a live streaming software based on [OBS (Open Broadcast Software)](https://obsproject.com). Many [Twitch.tv](https://twitch.tv) streamers use it to read follower, donation, and subscriber updates while they're in game.
 
@@ -10,8 +10,7 @@ This is a text to speech emulator powered by StreamElements' API. It converts yo
 
 ## Features
 
-- Serverless backend powered by [Google Cloud Functions](https://cloud.google.com/functions)
-- Static frontend powered by [GatsbyJS](https://www.gatsbyjs.com)
+- Static frontend powered by [Gatsby](https://www.gatsbyjs.com)
 - TTS processing powered by [StreamElements](https://StreamElements.com)
 - More than 10 different voices
 - Served over HTTPS
