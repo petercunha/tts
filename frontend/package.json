@@ -4,12 +4,12 @@
   "version": "1.0.0",
   "author": "Peter Cunha",
   "dependencies": {
-    "gatsby": "^5.10.0",
-    "gatsby-cli": "^5.10.0",
-    "gatsby-plugin-google-analytics": "^5.10.0",
-    "gatsby-plugin-manifest": "^5.10.0",
-    "gatsby-plugin-offline": "^6.10.0",
-    "gatsby-plugin-react-helmet": "^6.10.0",
+    "gatsby": "^5.13.3",
+    "gatsby-cli": "^5.13.2",
+    "gatsby-plugin-google-analytics": "^5.13.1",
+    "gatsby-plugin-manifest": "^5.13.1",
+    "gatsby-plugin-offline": "^6.13.1",
+    "gatsby-plugin-react-helmet": "^6.13.1",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0",
@@ -26,7 +26,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "prettier": "^3.2.5"
   },
   "repository": {
     "type": "git",
