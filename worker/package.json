@@ -1,0 +1,17 @@
+{
+  "name": "textreaderpro",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "itty-router": "^4.0.27"
+  }
+}

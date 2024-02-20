@@ -47,23 +47,25 @@ class Index extends React.Component {
     this.setState({ buttonLoading: true })
 
     fetch(`${API}?voice=${this.state.voice}&text=${this.state.text}`)
-      .then(data => {
-        console.log(data)
-        data.blob().then(bytes => {
+      .then((data) => {
+        data.blob().then((bytes) => {
           if (data.status === 200) {
-            this.setState(prev => ({
+            this.setState((prev) => ({
               audioUrl: URL.createObjectURL(bytes),
               cooldown: prev.cooldown < COOLDOWN ? prev.cooldown : COOLDOWN,
               warningText: '',
             }))
+
+            this.log(this.state.voice, this.state.text)
           }
         })
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('We got an error:', err)
-        this.setState(prev => ({
-          warningText: `We're getting some upstream API errors. Cooldown adjusted to ${prev.cooldown +
-            COOLDOWN} seconds.`,
+        this.setState((prev) => ({
+          warningText: `We're getting some upstream API errors. Cooldown adjusted to ${
+            prev.cooldown + COOLDOWN
+          } seconds.`,
           cooldown: prev.cooldown + COOLDOWN,
         }))
       })
@@ -71,8 +73,9 @@ class Index extends React.Component {
         let count = 0
         let timer = setInterval(() => {
           this.setState({
-            buttonText: `Please wait ${this.state.cooldown -
-              Math.floor(count * 0.1)}s`,
+            buttonText: `Please wait ${
+              this.state.cooldown - Math.floor(count * 0.1)
+            }s`,
           })
           count++
 
@@ -85,13 +88,25 @@ class Index extends React.Component {
     event.preventDefault()
   }
 
+  // Log request in DB
+  async log(voice, text) {
+    await fetch('https://logs.textreader.pro/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        voice,
+        text,
+      }),
+    })
+  }
+
   render() {
     return (
       <Layout>
         <h3>Textreader Pro</h3>
         <p>
-          This tool converts text-to-speech with any common donation voices. You can use this to hear how
-          your donation will sound on Twitch.
+          This tool converts text-to-speech with any common donation voices. You
+          can use this to hear how your donation will sound on Twitch.
         </p>
         <br />
         <form
