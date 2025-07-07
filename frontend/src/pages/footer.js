@@ -4,14 +4,14 @@ class Footer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showNotice: true
+      showNotice: true,
     }
   }
 
   componentDidMount() {
     if (!isBannerDismissed()) {
       this.setState({
-        showNotice: false
+        showNotice: false,
       })
     }
   }
@@ -20,9 +20,13 @@ class Footer extends React.Component {
     return (
       <p
         className="footer"
-        style={{ display: this.state.showNotice ? 'block' : 'none' }}
+        style={{
+          display: this.state.showNotice ? 'block' : 'none',
+          color: 'var(--text-color)',
+          backgroundColor: 'var(--footer-background-color)',
+        }}
       >
-          {/* <img
+        {/* <img
             style={{
               height: '25px',
               verticalAlign: 'middle',
@@ -31,7 +35,15 @@ class Footer extends React.Component {
             alt="xqcL"
             src="https://cdn.frankerfacez.com/emoticon/425196/4"
           ></img> */}
-          Made with <span className="emoji">💙</span> by Telepathy. This website is <a href="https://github.com/petercunha/tts">open source</a>.
+        Made with <span className="emoji">💙</span> by Telepathy. This website
+        is{' '}
+        <a
+          href="https://github.com/petercunha/tts"
+          style={{ color: 'var(--text-color)' }}
+        >
+          open source
+        </a>
+        .
         <button
           style={{
             marginLeft: '10px',
@@ -39,19 +51,19 @@ class Footer extends React.Component {
             border: 'none',
             padding: 0,
             font: 'inherit',
-            color: 'gray',
+            color: 'var(--text-color)',
             cursor: 'pointer',
             textDecoration: 'none',
-            alignContent: 'right'
+            alignContent: 'right',
           }}
-          onClick={e => {
+          onClick={(e) => {
             // Prevent notice from showing again
             localStorage.setItem('dismissed', true)
             this.setState({ showNotice: false })
           }}
         >
           [X]
-        </button> 
+        </button>
       </p>
     )
   }
