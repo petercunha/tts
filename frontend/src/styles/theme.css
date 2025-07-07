@@ -1,0 +1,18 @@
+:root[data-theme='light'] {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --button-background-color: #f0f0f0;
+    --button-text-color: #000000;
+}
+
+:root[data-theme='dark'] {
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --button-background-color: #333333;
+    --button-text-color: #ffffff;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}

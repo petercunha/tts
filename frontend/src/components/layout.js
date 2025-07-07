@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
+import Settings from './Settings'
 
 import './layout.css'
 
@@ -16,7 +17,7 @@ const Layout = ({ children }) => (
         }
       }
     `}
-    render={data => (
+    render={(data) => (
       <>
         <Helmet
           title={data.site.siteMetadata.title}
@@ -35,6 +36,7 @@ const Layout = ({ children }) => (
         >
           <html lang="en" />
         </Helmet>
+        <Settings />
         <div
           style={{
             margin: '0 auto',

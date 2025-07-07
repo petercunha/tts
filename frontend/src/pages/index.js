@@ -103,8 +103,8 @@ class Index extends React.Component {
   render() {
     return (
       <Layout>
-        <h3>Textreader Pro</h3>
-        <p>
+        <h3 style={{ color: 'var(--text-color)' }}>Textreader Pro</h3>
+        <p style={{ color: 'var(--text-color)' }}>
           This tool converts text-to-speech with any common donation voices. You
           can use this to hear how your donation will sound on Twitch.
         </p>
@@ -112,7 +112,7 @@ class Index extends React.Component {
         <form
           onSubmit={this.handleSubmit}
           style={{
-            backgroundColor: '#d3d3d370',
+            backgroundColor: 'var(--button-background-color)',
             padding: '1em',
             borderRadius: '0.4em',
           }}
@@ -120,30 +120,41 @@ class Index extends React.Component {
           <p
             style={{
               margin: '0',
-              color: 'gray',
               fontFamily: 'italic',
               textAlign: 'center',
               marginTop: '5px',
               marginBottom: '15px',
               display: this.state.warningText !== '' ? 'block' : 'none',
+              color: 'var(--text-color)',
             }}
           >
             {this.state.warningText}
           </p>
 
           <div>
-            <span>Text: </span>
+            <span style={{ color: 'var(--text-color)' }}>Text: </span>
             <input
               type="text"
               value={this.state.text}
               maxLength="300"
               onChange={this.handleTextChange}
-              style={{ width: '90%' }}
+              style={{
+                width: '90%',
+                backgroundColor: 'var(--background-color)',
+                color: 'var(--text-color)',
+              }}
             />
           </div>
           <div style={{ marginTop: '5px' }}>
-            <span>Voice: </span>
-            <select value={this.state.voice} onChange={this.handleVoiceChange}>
+            <span style={{ color: 'var(--text-color)' }}>Voice: </span>
+            <select
+              value={this.state.voice}
+              onChange={this.handleVoiceChange}
+              style={{
+                backgroundColor: 'var(--background-color)',
+                color: 'var(--text-color)',
+              }}
+            >
               <option value="Brian">Brian</option>
               <option value="Ivy">Ivy</option>
               <option value="Justin">Justin</option>
@@ -170,6 +181,10 @@ class Index extends React.Component {
               type="submit"
               value={this.state.buttonText}
               disabled={this.state.buttonLoading}
+              style={{
+                backgroundColor: 'var(--background-color)',
+                color: 'var(--text-color)',
+              }}
             />
           </div>
         </form>
