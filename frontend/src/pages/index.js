@@ -156,6 +156,7 @@ class Index extends React.Component {
               }}
             >
               <option value="Brian">Brian</option>
+              <option value="en-GB-Wavenet-A">Bella</option>
               <option value="Ivy">Ivy</option>
               <option value="Justin">Justin</option>
               <option value="Russell">Russell</option>
