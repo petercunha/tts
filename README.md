@@ -10,12 +10,16 @@ This is a text to speech emulator powered by StreamElements' API. It converts yo
 
 ## Features
 
-- Static frontend powered by [Gatsby](https://www.gatsbyjs.com)
-- TTS processing powered by [StreamElements](https://StreamElements.com)
+- Static frontend powered by [Gatsby](https://www.gatsbyjs.com), based on React
+- TTS processing powered by [StreamElements](https://StreamElements.com) <-- thank u stream elements
 - More than 10 different voices
 - Served over HTTPS
 
+## Looking for other voices?
+
+If you can't find the TTS voice you're looking for on TextReader.Pro, check out [LazyPyro TTS](https://lazypy.ro/tts), which is an actively maintained project with more voices to choose from.
+
+
 ## Code of Conduct
 
-- Don't abuse the API
-- Don't use this tool to harass streamers with annoying donations
+- Don't spam the API, its generously hosted by StreamElements so we need to be nice to their servers.
