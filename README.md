@@ -8,7 +8,6 @@ This is a text to speech emulator powered by Amazon Polly API. It converts your 
 
 ## Features
 
-- Static frontend powered by [Gatsby](https://www.gatsbyjs.com), based on React
 - TTS processing powered by Amazon Polly and Google Wavenet
 - More than 10 different voices
 - Served over HTTPS
