@@ -8,6 +8,10 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Trust the first proxy (Nginx). This populates req.ip with the real client IP
+// instead of the Nginx local IP, fixing the rate limiter error.
+app.set('trust proxy', 1);
+
 // Daily quota settings
 const DAILY_CHAR_LIMIT = 250000; // characters per day
 const DAILY_REQUEST_LIMIT = 8000; // requests per day
@@ -26,8 +30,7 @@ function truncateString(s, n) {
 async function logRequest(req) {
     try {
         const now = new Date().toISOString();
-        const forwarded = req.headers['x-forwarded-for'];
-        const ip = forwarded ? forwarded.split(',')[0].trim() : (req.ip || req.socket.remoteAddress || '-');
+        const ip = req.ip || '-';
         const method = req.method;
         const url = truncateString(req.originalUrl || req.url || '', 200);
         const line = `${now} ${ip} ${method} ${url}\n`;
