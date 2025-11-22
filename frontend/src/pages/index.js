@@ -106,7 +106,12 @@ class Index extends React.Component {
         <h3 style={{ color: 'var(--text-color)' }}>Textreader Pro</h3>
         <p style={{ color: 'var(--text-color)' }}>
           This tool converts text-to-speech with any common donation voices. You
-          can use this to hear how your donation will sound on Twitch.
+          can use this to hear how your donation will sound on Twitch. 
+
+
+          <b>ATTENTION (Nov 21 2025):</b> StreamElements API has recently started charging for API calls. 
+            As such, the TTS is currently down as there is no payment setup. 
+           I'll work on fixing it sometime soon, but for now the site is out of service.
         </p>
         <br />
         <form
