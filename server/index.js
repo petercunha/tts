@@ -97,7 +97,11 @@ function checkAndIncrementQuota(addChars) {
 const textreaderOriginRegex = /^https?:\/\/([a-z0-9-]+\.)*textreader\.pro(?::\d+)?$/i;
 const corsOptions = {
     origin: function (origin, callback) {
-        if (!origin || textreaderOriginRegex.test(origin)) {
+        const isDevelopment = process.env.NODE_ENV === 'development';
+        const isLocalhost = origin && /^http:\/\/localhost(:\d+)?$/.test(origin);
+        const isAllowedDomain = !origin || textreaderOriginRegex.test(origin);
+
+        if (isAllowedDomain || (isDevelopment && isLocalhost)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
