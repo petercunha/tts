@@ -2,16 +2,14 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 
-This is a text to speech emulator powered by StreamElements' API. It converts your text to speech with any StreamElements voices.
-
-[StreamElements](https://StreamElements.com) is a live streaming software based on [OBS (Open Broadcast Software)](https://obsproject.com). Many [Twitch.tv](https://twitch.tv) streamers use it to read follower, donation, and subscriber updates while they're in game.
+This is a text to speech emulator powered by Amazon Polly API. It converts your text to speech with any Polly voices.
 
 # [**Website** :computer: :earth_americas:](https://textreader.pro)
 
 ## Features
 
 - Static frontend powered by [Gatsby](https://www.gatsbyjs.com), based on React
-- TTS processing powered by [StreamElements](https://StreamElements.com) <-- thank u stream elements
+- TTS processing powered by Amazon Polly and Google Wavenet
 - More than 10 different voices
 - Served over HTTPS
 
@@ -22,4 +20,4 @@ If you can't find the TTS voice you're looking for on TextReader.Pro, check out 
 
 ## Code of Conduct
 
-- Don't spam the API, its generously hosted by StreamElements so we need to be nice to their servers.
+- Don't spam the API, I host it myself so it costs money! Please use it respectfully.
