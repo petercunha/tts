@@ -144,6 +144,7 @@ app.use(apiLimiter);
 app.get('/', async (req, res) => {
     try {
         const usage = await readUsage();
+        usage.spend = `$${(usage.chars * (4 / 1000000)).toFixed(2)}` ; // $4 per 1 million chars
         res.json(usage);
     } catch (error) {
         console.error("Error reading usage file:", error);
@@ -157,12 +158,18 @@ app.get('/tts', async (req, res) => {
     try {
         // Extract parameters from query string
         const text = req.query.text;
-        const voiceId = req.query.voice || 'Brian'; // Default to Brian if no voice specified
-        const engine = 'standard'
-        // const engine = req.query.engine || 'standard'; // 'standard' or 'neural'
+        const voiceId = req.query.voice || 'Brian';
 
         if (!text) {
             return res.status(400).json({ error: "Missing 'text' query parameter" });
+        }
+
+        if (text.length > 300) {
+            return res.status(400).json({ error: "Text length exceeds 300 characters limit." });
+        }
+
+        if (voiceId.length > 50) {
+            return res.status(400).json({ error: "Voice ID length exceeds 50 characters limit." });
         }
 
         // Check daily quotas (characters and total requests). If quota exceeded, deny until next day.
@@ -198,7 +205,7 @@ app.get('/tts', async (req, res) => {
                 Text: text,
                 OutputFormat: 'mp3',
                 VoiceId: voiceId,
-                Engine: engine
+                Engine: 'standard'
             };
 
             // Send request to AWS
