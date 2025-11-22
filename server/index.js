@@ -4,6 +4,8 @@ const { PollyClient, SynthesizeSpeechCommand } = require("@aws-sdk/client-polly"
 const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
+const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,28 +20,6 @@ const DAILY_REQUEST_LIMIT = 8000; // requests per day
 
 // Path to persistent usage file
 const usageFile = path.join(__dirname, 'usage.json');
-
-// Path to request log file
-const requestLogFile = path.join(__dirname, 'requests.log');
-
-function truncateString(s, n) {
-    if (!s) return '';
-    return s.length > n ? s.slice(0, n - 3) + '...' : s;
-}
-
-async function logRequest(req) {
-    try {
-        const now = new Date().toISOString();
-        const ip = req.ip || '-';
-        const method = req.method;
-        const url = truncateString(req.originalUrl || req.url || '', 200);
-        const line = `${now} ${ip} ${method} ${url}\n`;
-        await fs.promises.appendFile(requestLogFile, line, 'utf8');
-    } catch (err) {
-        // Don't break requests if logging fails; just write to stderr
-        console.error('Request logging failed:', err);
-    }
-}
 
 // In-memory lock to serialize usage updates (simple promise-queue)
 let usageLock = Promise.resolve();
@@ -114,27 +94,21 @@ function checkAndIncrementQuota(addChars) {
 
 // CORS Middleware: allow requests from textreader.pro and its subdomains
 const textreaderOriginRegex = /^https?:\/\/([a-z0-9-]+\.)*textreader\.pro(?::\d+)?$/i;
-// Request logging middleware (non-blocking)
-app.use((req, res, next) => {
-    // fire-and-forget async logging, errors handled inside logRequest
-    logRequest(req);
-    next();
-});
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || textreaderOriginRegex.test(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+};
+app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-    const origin = req.get('Origin');
-    if (origin && textreaderOriginRegex.test(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-    }
-    // Handle preflight
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(204);
-    }
-    next();
-});
+// Request logging middleware
+// Skip logging for OPTIONS requests (CORS preflight)
+app.use(morgan('dev'));
 
 // 1. Initialize AWS Polly Client
 // The SDK automatically looks for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in environment variables.
@@ -192,6 +166,7 @@ app.get('/tts', async (req, res) => {
 
         // Send request to AWS
         const command = new SynthesizeSpeechCommand(params);
+        console.log('Sending request to Polly');
         const response = await pollyClient.send(command);
 
         // Stream the audio directly to the client
