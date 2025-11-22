@@ -109,6 +109,10 @@ app.use(cors(corsOptions));
 // Request logging middleware
 // Skip logging for OPTIONS requests (CORS preflight)
 app.use(morgan('dev'));
+// Create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+// Setup the logger
+app.use(morgan('combined', { stream: accessLogStream }));
 
 // 1. Initialize AWS Polly Client
 // The SDK automatically looks for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in environment variables.
@@ -128,6 +132,16 @@ const apiLimiter = rateLimit({
 
 // Apply the rate limiting middleware to all requests
 app.use(apiLimiter);
+
+app.get('/', async (req, res) => {
+    try {
+        const usage = await readUsage();
+        res.json(usage);
+    } catch (error) {
+        console.error("Error reading usage file:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 // 3. The TTS Endpoint
 // Usage: http://localhost:3000/tts?text=Hello&voice=Brian
@@ -184,6 +198,54 @@ app.get('/tts', async (req, res) => {
         if (error.name === 'ValidationException') {
              return res.status(400).json({ error: "Invalid voice ID or parameters." });
         }
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+app.get('/secretlogs', async (req, res) => {
+    const logFilePath = path.join(__dirname, 'access.log');
+    try {
+        const stats = await fs.promises.stat(logFilePath);
+        const fileSize = (stats.size / 1024).toFixed(2) + ' KB';
+
+        const data = await fs.promises.readFile(logFilePath, 'utf8');
+        const lines = data.split('\n').filter(line => line.length > 0);
+        const lineCount = lines.length;
+        const last5Lines = lines.slice(-10).join('<br>');
+
+        const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Access Logs</title>
+                <style>
+                    body { font-family: sans-serif; background-color: #f4f4f4; color: #333; }
+                    .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    h1, h2 { color: #555; }
+                    p { line-height: 1.6; }
+                    pre { background-color: #eee; padding: 10px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>Log File Stats</h1>
+                    <p><strong>File Size:</strong> ${fileSize}</p>
+                    <p><strong>Line Count:</strong> ${lineCount}</p>
+                    <h2>Last 10 Requests:</h2>
+                    <pre>${last5Lines}</pre>
+                </div>
+            </body>
+            </html>
+        `;
+        res.send(html);
+
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).send("Log file not found. No requests logged yet.");
+        }
+        console.error("Error reading log file:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
