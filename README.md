@@ -2,7 +2,7 @@
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-crayons.svg)](https://forthebadge.com)
 
-This is a text to speech emulator powered by Amazon Polly API. It converts your text to speech with any Polly voices.
+This is a text to speech emulator powered by the Amazon Polly API. It converts your text to speech with any Polly voices.
 
 # [**Website** :computer: :earth_americas:](https://textreader.pro)
 
@@ -19,4 +19,4 @@ If you can't find the TTS voice you're looking for on TextReader.Pro, check out 
 
 ## Code of Conduct
 
-- Don't spam the API, I host it myself so it costs money! Please use it respectfully.
+- Don't spam the API, I host it myself so it costs money! Please be respectful.
