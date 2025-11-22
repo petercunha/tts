@@ -6,6 +6,7 @@ import greet from '../lib/greeting'
 
 // TTS API
 const API = 'https://api.textreader.pro/tts'
+// const API = 'http://localhost:3000/tts'
 
 // How many seconds a user must wait if StreamElements is rate limiting us
 const COOLDOWN = 5
@@ -107,11 +108,6 @@ class Index extends React.Component {
         <p style={{ color: 'var(--text-color)' }}>
           This tool converts text-to-speech with any common donation voices. You
           can use this to hear how your donation will sound on Twitch. 
-
-          <br /><br />
-          <b>ATTENTION (Nov 21 2025):</b> StreamElements recently started charging money for API calls. 
-            As such, the TTS is currently down as there is no payment setup. 
-           I'll work on fixing it sometime soon, but for now the site is out of service.
         </p>
         <br />
         <form
