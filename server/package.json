@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "@aws-sdk/client-polly": "^3.936.0",
+    "@google-cloud/text-to-speech": "^6.4.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

@@ -3,3 +3,4 @@ node_modules/
 usage.json
 requests.log
 access.log
+twitchtts-*.json

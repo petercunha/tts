@@ -1,6 +1,7 @@
 require('dotenv').config({ quiet: true });
 const express = require('express');
 const { PollyClient, SynthesizeSpeechCommand } = require("@aws-sdk/client-polly");
+const textToSpeech = require('@google-cloud/text-to-speech');
 const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
@@ -120,6 +121,9 @@ const pollyClient = new PollyClient({
     region: process.env.AWS_REGION || "us-east-1"
 });
 
+// Initialize Google Cloud Text-to-Speech Client
+const googleTtsClient = new textToSpeech.TextToSpeechClient();
+
 // 2. Configure Rate Limiting (Protect your Wallet)
 // This limits each IP address to 50 requests every 10 minutes.
 const apiLimiter = rateLimit({
@@ -170,30 +174,46 @@ app.get('/tts', async (req, res) => {
             return res.status(429).json({ error: 'Daily quota exceeded. Try again tomorrow.' });
         }
 
-        // Define Polly Parameters
-        const params = {
-            Text: text,
-            OutputFormat: 'mp3',
-            VoiceId: voiceId,
-            Engine: engine 
-        };
+        // Determine which TTS service to use based on voice ID
+        if (voiceId.toLowerCase().includes('wavenet')) {
+            // Google Cloud TTS
+            const request = {
+                input: { text: text },
+                voice: { languageCode: 'en-GB', name: voiceId },
+                audioConfig: { audioEncoding: 'MP3' },
+            };
 
-        // Send request to AWS
-        const command = new SynthesizeSpeechCommand(params);
-        console.log('Sending request to Polly');
-        const response = await pollyClient.send(command);
+            console.log('Sending request to Google TTS');
+            const [response] = await googleTtsClient.synthesizeSpeech(request);
+            res.set('Content-Type', 'audio/mpeg');
+            res.send(response.audioContent);
 
-        // Stream the audio directly to the client
-        if (response.AudioStream) {
-            res.setHeader('Content-Type', 'audio/mpeg');
-            // In Node.js, AudioStream is a readable stream, so we can pipe it directly
-            response.AudioStream.pipe(res);
         } else {
-            res.status(500).json({ error: "AWS returned no audio stream." });
+            // AWS Polly
+            const params = {
+                Text: text,
+                OutputFormat: 'mp3',
+                VoiceId: voiceId,
+                Engine: engine
+            };
+
+            // Send request to AWS
+            const command = new SynthesizeSpeechCommand(params);
+            console.log('Sending request to Polly');
+            const response = await pollyClient.send(command);
+
+            // Stream the audio directly to the client
+            if (response.AudioStream) {
+                res.setHeader('Content-Type', 'audio/mpeg');
+                // In Node.js, AudioStream is a readable stream, so we can pipe it directly
+                response.AudioStream.pipe(res);
+            } else {
+                res.status(500).json({ error: "AWS returned no audio stream." });
+            }
         }
 
     } catch (error) {
-        console.error("Polly Error:", error);
+        console.error("TTS Error:", error);
         // Handle common AWS errors
         if (error.name === 'ValidationException') {
              return res.status(400).json({ error: "Invalid voice ID or parameters." });
