@@ -5,7 +5,7 @@ import Footer from './footer'
 import greet from '../lib/greeting'
 
 // TTS API
-const API = 'https://api.streamelements.com/kappa/v2/speech'
+const API = 'https://api.textreader.pro/tts'
 
 // How many seconds a user must wait if StreamElements is rate limiting us
 const COOLDOWN = 5

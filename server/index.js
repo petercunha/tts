@@ -6,6 +6,24 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// CORS Middleware: allow requests from textreader.pro and its subdomains
+// Also allow localhost (and 127.0.0.1 / [::1]) for local development/testing
+const textreaderOriginRegex = /^https?:\/\/([a-z0-9-]+\.)*textreader\.pro(?::\d+)?$/i;
+app.use((req, res, next) => {
+    const origin = req.get('Origin');
+    if (origin && textreaderOriginRegex.test(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+    }
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+    next();
+});
+
 // 1. Initialize AWS Polly Client
 // The SDK automatically looks for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in environment variables.
 const pollyClient = new PollyClient({
