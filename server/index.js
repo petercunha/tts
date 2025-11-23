@@ -28,14 +28,24 @@ let usageLock = Promise.resolve();
 async function readUsage() {
     try {
         const raw = await fs.promises.readFile(usageFile, 'utf8');
-        return JSON.parse(raw);
+        const data = JSON.parse(raw);
+        // To support migration from the old format (single object) to the new array format
+        if (Array.isArray(data)) {
+            return data;
+        }
+        // If it's the old object format, wrap it in an array
+        if (data && data.date) {
+            return [data];
+        }
+        return []; // If format is unknown or file is empty, start fresh
     } catch (err) {
-        // If file doesn't exist or parse error, start fresh
-        return {
-            date: getTodayString(),
-            requests: 0,
-            chars: 0
-        };
+        // If file doesn't exist, start with an empty array.
+        if (err.code === 'ENOENT') {
+            return [];
+        }
+        // If JSON is invalid, also start fresh.
+        console.error("Error reading or parsing usage.json, starting fresh.", err);
+        return [];
     }
 }
 
@@ -54,38 +64,39 @@ function getTodayString() {
  */
 function checkAndIncrementQuota(addChars) {
     return usageLock = usageLock.then(async () => {
-        const today = getTodayString();
-        const usage = await readUsage();
+        const todayStr = getTodayString();
+        const usageHistory = await readUsage();
 
-        // Reset if different day
-        if (usage.date !== today) {
-            usage.date = today;
-            usage.requests = 0;
-            usage.chars = 0;
+        let todayUsage = usageHistory.find(u => u.date === todayStr);
+
+        // If no entry for today, create one
+        if (!todayUsage) {
+            todayUsage = { date: todayStr, requests: 0, chars: 0 };
+            usageHistory.push(todayUsage);
         }
 
-        const nextRequests = usage.requests + 1;
-        const nextChars = usage.chars + addChars;
+        const nextRequests = todayUsage.requests + 1;
+        const nextChars = todayUsage.chars + addChars;
 
         if (nextRequests > DAILY_REQUEST_LIMIT) {
-            return { allowed: false, reason: 'daily_requests_exceeded', remainingRequests: Math.max(0, DAILY_REQUEST_LIMIT - usage.requests) };
+            return { allowed: false, reason: 'daily_requests_exceeded', remainingRequests: Math.max(0, DAILY_REQUEST_LIMIT - todayUsage.requests) };
         }
 
         if (nextChars > DAILY_CHAR_LIMIT) {
-            return { allowed: false, reason: 'daily_chars_exceeded', remainingChars: Math.max(0, DAILY_CHAR_LIMIT - usage.chars) };
+            return { allowed: false, reason: 'daily_chars_exceeded', remainingChars: Math.max(0, DAILY_CHAR_LIMIT - todayUsage.chars) };
         }
 
         // Accept and persist
-        usage.requests = nextRequests;
-        usage.chars = nextChars;
+        todayUsage.requests = nextRequests;
+        todayUsage.chars = nextChars;
         try {
-            await writeUsage(usage);
+            await writeUsage(usageHistory);
         } catch (err) {
             console.error('Failed to write usage file:', err);
             // Even if write fails, allow the request (we've updated in memory)
         }
 
-        return { allowed: true, usage };
+        return { allowed: true, usage: todayUsage };
     }).catch(err => {
         console.error('Quota lock error:', err);
         // On unexpected error, be conservative and allow request
@@ -143,9 +154,12 @@ app.use(apiLimiter);
 
 app.get('/', async (req, res) => {
     try {
-        const usage = await readUsage();
-        usage.spend = `$${(usage.chars * (4 / 1000000)).toFixed(2)}` ; // $4 per 1 million chars
-        res.json(usage);
+        const usageHistory = await readUsage();
+        const usageWithDetails = usageHistory.map(day => ({
+            ...day,
+            spend: `$${(day.chars * (4 / 1000000)).toFixed(2)}` // $4 per 1 million chars
+        }));
+        res.json(usageWithDetails);
     } catch (error) {
         console.error("Error reading usage file:", error);
         res.status(500).json({ error: "Internal Server Error" });
