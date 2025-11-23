@@ -154,6 +154,14 @@ app.use(apiLimiter);
 
 app.get('/', async (req, res) => {
     try {
+        res.send("<h2>Server Online</h2> Usage: <a href=\"/stats\">/stats");
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.get('/stats', async (req, res) => {
+    try {
         const usageHistory = await readUsage();
         const usageWithDetails = usageHistory.map(day => ({
             ...day,
