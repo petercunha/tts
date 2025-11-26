@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamElements TTS Emulator</title>
+    <meta name="description" content="StreamElements TTS Emulator. You can use this site to convert text-to-speech with any of StreamElements voices.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="theme-toggler">
+        <button id="theme-light" aria-label="Light Mode">Light</button>
+        <button id="theme-dark" aria-label="Dark Mode">Dark</button>
+        <button id="theme-system" aria-label="System Mode">System</button>
+    </div>
+
+    <div class="container">
+        <h3 class="title">Textreader Pro</h3>
+        <p class="description">
+            This tool converts text-to-speech with any common donation voices. You
+            can use this to hear how your donation will sound on Twitch.
+        </p>
+        <br />
+        
+        <form id="tts-form">
+            <p id="warning-text" class="warning-text"></p>
+
+            <div>
+                <span class="label">Text: </span>
+                <input type="text" id="text-input" maxlength="300" class="input-field" required>
+            </div>
+            
+            <div style="margin-top: 5px;">
+                <span class="label">Voice: </span>
+                <select id="voice-select" class="input-field">
+                    <option value="Brian">Brian</option>
+                    <option value="en-GB-Wavenet-A">Bella</option>
+                    <option value="Ivy">Ivy</option>
+                    <option value="Justin">Justin</option>
+                    <option value="Russell">Russell</option>
+                    <option value="Nicole">Nicole</option>
+                    <option value="Emma">Emma</option>
+                    <option value="Amy">Amy</option>
+                    <option value="Joanna">Joanna</option>
+                    <option value="Salli">Salli</option>
+                    <option value="Kimberly">Kimberly</option>
+                    <option value="Kendra">Kendra</option>
+                    <option value="Joey">Joey</option>
+                    <option value="Mizuki">Mizuki (Japanese)</option>
+                    <option value="Chantal">Chantal (French)</option>
+                    <option value="Mathieu">Mathieu (French)</option>
+                    <option value="Maxim">Maxim (Russian)</option>
+                    <option value="Hans">Hans (German)</option>
+                    <option value="Raveena">Raveena (Indian)</option>
+                </select>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <input type="submit" id="submit-button" value="Play" class="submit-button">
+            </div>
+        </form>
+
+        <br />
+
+        <audio id="audio-player" controls style="display: none;"></audio>
+
+        <footer class="footer">
+            <span class="emoji">©</span> 2023 Textreader Pro
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
