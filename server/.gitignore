@@ -4,3 +4,4 @@ usage.json
 requests.log
 access.log
 twitchtts-*.json
+cache/

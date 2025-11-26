@@ -46,7 +46,7 @@ function checkAndIncrementQuota(addChars) {
       let todayUsage = usageHistory.find((u) => u.date === todayStr);
 
       if (!todayUsage) {
-        todayUsage = { date: todayStr, requests: 0, chars: 0 };
+        todayUsage = { date: todayStr, requests: 0, chars: 0, cacheHits: 0 };
         usageHistory.push(todayUsage);
       }
 
@@ -88,7 +88,30 @@ function checkAndIncrementQuota(addChars) {
     }));
 }
 
+async function incrementCacheHits() {
+  return (usageLock = usageLock.then(async () => {
+    const todayStr = getTodayString();
+    const usageHistory = await readUsage();
+
+    let todayUsage = usageHistory.find((u) => u.date === todayStr);
+
+    if (!todayUsage) {
+      todayUsage = { date: todayStr, requests: 0, chars: 0, cacheHits: 0 };
+      usageHistory.push(todayUsage);
+    }
+
+    todayUsage.cacheHits = (todayUsage.cacheHits || 0) + 1;
+
+    try {
+      await writeUsage(usageHistory);
+    } catch (err) {
+      console.error("Failed to write usage file:", err);
+    }
+  }));
+}
+
 module.exports = {
   readUsage,
   checkAndIncrementQuota,
+  incrementCacheHits,
 };

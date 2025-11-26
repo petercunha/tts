@@ -5,7 +5,9 @@ const {
   SynthesizeSpeechCommand,
 } = require("@aws-sdk/client-polly");
 const textToSpeech = require("@google-cloud/text-to-speech");
-const { checkAndIncrementQuota } = require("../utils/usage");
+const { checkAndIncrementQuota, incrementCacheHits } = require("../utils/usage");
+const { getCachedAudio, cacheAudio } = require("../utils/cache");
+const fs = require("fs");
 
 const pollyClient = new PollyClient({
   region: process.env.AWS_REGION || "us-east-1",
@@ -34,6 +36,14 @@ router.get("/", async (req, res) => {
         .json({ error: "Voice ID length exceeds 50 characters limit." });
     }
 
+    const cachedPath = await getCachedAudio(text, voiceId);
+    if (cachedPath) {
+      await incrementCacheHits();
+      res.set("X-Cache-Status", "hit");
+      res.set("Content-Type", "audio/mpeg");
+      return fs.createReadStream(cachedPath).pipe(res);
+    }
+
     const textLength = text.length;
     const quotaResult = await checkAndIncrementQuota(textLength);
     if (!quotaResult.allowed) {
@@ -53,6 +63,8 @@ router.get("/", async (req, res) => {
         .json({ error: "Daily quota exceeded. Try again tomorrow." });
     }
 
+    let audioContent;
+
     if (voiceId.toLowerCase().includes("wavenet")) {
       // Google Cloud TTS
       const request = {
@@ -63,8 +75,7 @@ router.get("/", async (req, res) => {
 
       console.log("Sending request to Google TTS");
       const [response] = await googleTtsClient.synthesizeSpeech(request);
-      res.set("Content-Type", "audio/mpeg");
-      res.send(response.audioContent);
+      audioContent = response.audioContent;
     } else {
       // AWS Polly
       const params = {
@@ -79,11 +90,22 @@ router.get("/", async (req, res) => {
       const response = await pollyClient.send(command);
 
       if (response.AudioStream) {
-        res.setHeader("Content-Type", "audio/mpeg");
-        response.AudioStream.pipe(res);
+        const audioStream = response.AudioStream;
+        const chunks = [];
+        for await (const chunk of audioStream) {
+          chunks.push(chunk);
+        }
+        audioContent = Buffer.concat(chunks);
       } else {
-        res.status(500).json({ error: "AWS returned no audio stream." });
+        return res.status(500).json({ error: "AWS returned no audio stream." });
       }
+    }
+
+    if (audioContent) {
+      await cacheAudio(text, voiceId, audioContent);
+      res.set("X-Cache-Status", "miss");
+      res.set("Content-Type", "audio/mpeg");
+      res.send(audioContent);
     }
   } catch (error) {
     console.error("TTS Error:", error);
