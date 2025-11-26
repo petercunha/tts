@@ -5,7 +5,7 @@ const {
   SynthesizeSpeechCommand,
 } = require("@aws-sdk/client-polly");
 const textToSpeech = require("@google-cloud/text-to-speech");
-const { checkAndIncrementQuota, incrementCacheHits } = require("../utils/usage");
+const { checkAndIncrementQuota, updateCacheStats } = require("../utils/usage");
 const { getCachedAudio, cacheAudio } = require("../utils/cache");
 const fs = require("fs");
 
@@ -38,7 +38,7 @@ router.get("/", async (req, res) => {
 
     const cachedPath = await getCachedAudio(text, voiceId);
     if (cachedPath) {
-      await incrementCacheHits();
+      await updateCacheStats(text.length);
       res.set("X-Cache-Status", "hit");
       res.set("Content-Type", "audio/mpeg");
       return fs.createReadStream(cachedPath).pipe(res);

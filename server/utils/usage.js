@@ -46,7 +46,13 @@ function checkAndIncrementQuota(addChars) {
       let todayUsage = usageHistory.find((u) => u.date === todayStr);
 
       if (!todayUsage) {
-        todayUsage = { date: todayStr, requests: 0, chars: 0, cacheHits: 0 };
+        todayUsage = {
+          date: todayStr,
+          requests: 0,
+          chars: 0,
+          cacheHits: 0,
+          cachedChars: 0,
+        };
         usageHistory.push(todayUsage);
       }
 
@@ -88,7 +94,7 @@ function checkAndIncrementQuota(addChars) {
     }));
 }
 
-async function incrementCacheHits() {
+async function updateCacheStats(charCount) {
   return (usageLock = usageLock.then(async () => {
     const todayStr = getTodayString();
     const usageHistory = await readUsage();
@@ -96,11 +102,18 @@ async function incrementCacheHits() {
     let todayUsage = usageHistory.find((u) => u.date === todayStr);
 
     if (!todayUsage) {
-      todayUsage = { date: todayStr, requests: 0, chars: 0, cacheHits: 0 };
+      todayUsage = {
+        date: todayStr,
+        requests: 0,
+        chars: 0,
+        cacheHits: 0,
+        cachedChars: 0,
+      };
       usageHistory.push(todayUsage);
     }
 
     todayUsage.cacheHits = (todayUsage.cacheHits || 0) + 1;
+    todayUsage.cachedChars = (todayUsage.cachedChars || 0) + charCount;
 
     try {
       await writeUsage(usageHistory);
@@ -113,5 +126,5 @@ async function incrementCacheHits() {
 module.exports = {
   readUsage,
   checkAndIncrementQuota,
-  incrementCacheHits,
+  updateCacheStats,
 };

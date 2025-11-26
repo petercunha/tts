@@ -9,7 +9,10 @@ router.get("/", async (req, res) => {
       date: day.date,
       requests: day.requests,
       chars: day.chars,
+      cacheHits: day.cacheHits || 0,
+      cachedChars: day.cachedChars || 0,
       spend: day.chars * (4 / 1000000),
+      savings: (day.cachedChars || 0) * (4 / 1000000),
     }));
 
     const html = `
@@ -56,11 +59,25 @@ router.get("/", async (req, res) => {
                                 valueFormatter: p => p.value.toLocaleString() 
                             },
                             { 
+                                field: "cachedChars", 
+                                headerName: "Cached Chars", 
+                                filter: 'agNumberColumnFilter',
+                                type: 'numericColumn',
+                                valueFormatter: p => p.value.toLocaleString() 
+                            },
+                            { 
                                 field: "spend", 
                                 headerName: "Est. Spend ($4/1M)", 
                                 filter: 'agNumberColumnFilter',
                                 type: 'numericColumn',
                                 valueFormatter: p => '$' + p.value.toFixed(4) 
+                            },
+                            {
+                                field: "savings",
+                                headerName: "Est. Savings ($4/1M)",
+                                filter: 'agNumberColumnFilter',
+                                type: 'numericColumn',
+                                valueFormatter: p => '$' + p.value.toFixed(4)
                             }
                         ],
                         defaultColDef: {
