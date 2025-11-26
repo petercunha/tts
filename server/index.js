@@ -50,7 +50,8 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
+app.use("/", statsRouter);
 app.use("/stats", statsRouter);
 app.use("/tts", ttsRouter);
 app.use("/secretlogs", logsRouter);
