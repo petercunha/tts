@@ -1,10 +1,10 @@
-require("dotenv").config({ quiet: true });
+const path = require('path');
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '.env') });
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const cors = require("cors");
 const fs = require("fs");
-const path = require("path");
 const indexRouter = require("./routes/index");
 const statsRouter = require("./routes/stats");
 const ttsRouter = require("./routes/tts");
