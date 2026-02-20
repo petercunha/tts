@@ -4,6 +4,7 @@ import ThemeToggler from './ThemeToggler'
 
 const Settings = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [iconHovered, setIconHovered] = useState(false)
   const ref = useRef()
 
   useEffect(() => {
@@ -25,7 +26,16 @@ const Settings = () => {
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+        onMouseEnter={() => setIconHovered(true)}
+        onMouseLeave={() => setIconHovered(false)}
+        style={{
+          background: iconHovered ? 'rgba(128,128,128,0.2)' : 'none',
+          border: 'none',
+          cursor: 'pointer',
+          borderRadius: '0.3em',
+          padding: '4px 5px 2px',
+          transition: 'background-color 0.15s ease',
+        }}
       >
         <FiSettings style={{ color: 'var(--text-color)' }} />
       </button>
