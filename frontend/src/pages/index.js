@@ -109,6 +109,7 @@ class Index extends React.Component {
           This tool converts text-to-speech with any common donation voices. You
           can use this to hear how your donation will sound on Twitch. 
         </p>
+        <p  style={{ color: 'var(--text-color)', textAlign: 'center' }}><b style={{ marginBottom: 3}}>NOTE: We are currently experiencing a server outage</b>!!<br />Please use <a style={{ color: 'var(--text-color)' }} href="https://lazypy.ro/tts/?voice=Brian&service=Streamlabs">LazyPyro TTS</a> until the situation is resolved. Thanks, and have a nice day.</p>
         <br />
         <form
           onSubmit={this.handleSubmit}
