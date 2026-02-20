@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 import Settings from './Settings'
+import ToolsMenu from './ToolsMenu'
 
 import './layout.css'
 
@@ -36,6 +37,7 @@ const Layout = ({ children }) => (
         >
           <html lang="en" />
         </Helmet>
+        <ToolsMenu />
         <Settings />
         <div
           style={{
