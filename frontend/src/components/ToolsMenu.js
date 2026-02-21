@@ -26,7 +26,7 @@ const ToolItem = ({ tool }) => {
     <li style={{ marginBottom: '0.3rem' }}>
       <a
         href={tool.url}
-        target="_blank"
+        // target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
