@@ -14,7 +14,7 @@ const tools = [
   },
   {
     name: '🏅 Badge Alerts',
-    url: 'https://x.com/StreamDatabase',
+    url: 'https://www.streamdatabase.com/twitch/global-badges',
     credits: 'Ravenbtw',
   },
 ]
