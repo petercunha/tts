@@ -15,8 +15,13 @@ function cleanup() {
   }
 }
 
-function generateChallenge() {
+function generateChallenge(ip) {
   cleanup();
+
+  const countForIp = Array.from(pendingChallenges.values()).filter(data => data.ip === ip).length;
+  if (countForIp >= 5) {
+    return null;
+  }
 
   if (pendingChallenges.size >= MAX_PENDING_CHALLENGES) {
     return null;
@@ -26,6 +31,7 @@ function generateChallenge() {
   pendingChallenges.set(token, {
     issuedAt: Date.now(),
     difficulty: CHALLENGE_DIFFICULTY,
+    ip: ip
   });
 
   return { token, difficulty: CHALLENGE_DIFFICULTY };

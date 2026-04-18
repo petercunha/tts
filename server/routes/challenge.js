@@ -3,7 +3,7 @@ const router = express.Router();
 const { generateChallenge } = require("../utils/botProtection");
 
 router.get("/", (req, res) => {
-  const challenge = generateChallenge();
+  const challenge = generateChallenge(req.ip);
   if (!challenge) {
     return res
       .status(503)

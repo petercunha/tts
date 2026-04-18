@@ -7,9 +7,11 @@ import solveChallenge from '../lib/pow'
 
 const API = 'https://api.textreader.pro/tts'
 const CHALLENGE_API = 'https://api.textreader.pro/challenge'
+// const API = 'http://localhost:3000/tts'
+// const CHALLENGE_API = 'http://localhost:3000/challenge'
 
 // How many seconds a user must wait if API is rate limiting us
-const COOLDOWN = 5
+const COOLDOWN = 3
 
 class Index extends React.Component {
   constructor(props) {
