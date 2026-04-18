@@ -9,6 +9,7 @@ const indexRouter = require("./routes/index");
 const statsRouter = require("./routes/stats");
 const ttsRouter = require("./routes/tts");
 const logsRouter = require("./routes/logs");
+const challengeRouter = require("./routes/challenge");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -50,10 +51,10 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-// app.use("/", indexRouter);
 app.use("/", statsRouter);
 app.use("/stats", statsRouter);
 app.use("/tts", ttsRouter);
+app.use("/challenge", challengeRouter);
 app.use("/secretlogs", logsRouter);
 
 app.listen(port, () => {
