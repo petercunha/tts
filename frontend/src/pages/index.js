@@ -3,13 +3,15 @@ import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
 import Footer from './footer'
 import greet from '../lib/greeting'
+import solveChallenge from '../lib/pow'
 
-// TTS API
 const API = 'https://api.textreader.pro/tts'
+const CHALLENGE_API = 'https://api.textreader.pro/challenge'
 // const API = 'http://localhost:3000/tts'
+// const CHALLENGE_API = 'http://localhost:3000/challenge'
 
-// How many seconds a user must wait if StreamElements is rate limiting us
-const COOLDOWN = 5
+// How many seconds a user must wait if API is rate limiting us
+const COOLDOWN = 3
 
 class Index extends React.Component {
   constructor(props) {
@@ -44,11 +46,32 @@ class Index extends React.Component {
   }
 
   handleSubmit(event) {
-    // Rate limit the button
     this.setState({ buttonLoading: true })
 
-    fetch(`${API}?voice=${this.state.voice}&text=${this.state.text}`)
+    let challengeToken = null
+
+    fetch(CHALLENGE_API)
+      .then((res) => res.json())
+      .then(({ token, difficulty }) => {
+        challengeToken = token
+        return solveChallenge(token, difficulty)
+      })
+      .then((solution) => {
+        return fetch(
+          `${API}?voice=${this.state.voice}&text=${encodeURIComponent(this.state.text)}&token=${challengeToken}&solution=${solution}`
+        )
+      })
+      .catch((err) => {
+        console.error('Challenge failed:', err)
+        this.setState((prev) => ({
+          warningText: 'Bot protection challenge failed. Please try again.',
+          cooldown: prev.cooldown + COOLDOWN,
+        }))
+        this.setState({ buttonText: 'Play', buttonLoading: false })
+        return null
+      })
       .then((data) => {
+        if (!data) return
         data.blob().then((bytes) => {
           if (data.status === 200) {
             this.setState((prev) => ({
@@ -203,7 +226,6 @@ class Index extends React.Component {
           controls
         />
 
-        {/* Anti-twitch spam banner */}
         <Footer />
       </Layout>
     )

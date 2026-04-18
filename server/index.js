@@ -9,6 +9,7 @@ const indexRouter = require("./routes/index");
 const statsRouter = require("./routes/stats");
 const ttsRouter = require("./routes/tts");
 const logsRouter = require("./routes/logs");
+const challengeRouter = require("./routes/challenge");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,7 +43,7 @@ app.use(morgan("combined", { stream: accessLogStream }));
 
 const apiLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 40, // Limit each IP to 50 requests per windowMs
+  max: 50, // Limit each IP to 50 requests per windowMs
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   message: { error: "Too many requests, please slow down." },
@@ -50,10 +51,10 @@ const apiLimiter = rateLimit({
 
 app.use(apiLimiter);
 
-// app.use("/", indexRouter);
 app.use("/", statsRouter);
 app.use("/stats", statsRouter);
 app.use("/tts", ttsRouter);
+app.use("/challenge", challengeRouter);
 app.use("/secretlogs", logsRouter);
 
 app.listen(port, () => {

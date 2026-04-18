@@ -8,6 +8,7 @@ const {
 const textToSpeech = require("@google-cloud/text-to-speech");
 const { checkAndIncrementQuota, updateCacheStats } = require("../utils/usage");
 const { getCachedAudio, cacheAudio } = require("../utils/cache");
+const { verifySolution } = require("../utils/botProtection");
 const fs = require("fs");
 
 const pollyClient = new PollyClient({
@@ -47,6 +48,16 @@ router.get("/", async (req, res) => {
 
     if (!text) {
       return res.status(400).json({ error: "Missing 'text' query parameter" });
+    }
+
+    const powToken = req.query.token;
+    const powSolution = req.query.solution;
+    const verification = verifySolution(powToken, powSolution);
+    if (!verification.valid) {
+      return res.status(403).json({
+        error: "Bot protection challenge failed.",
+        reason: verification.reason,
+      });
     }
 
     if (text.length > 300) {
