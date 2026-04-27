@@ -4,8 +4,6 @@
 
 This is a text to speech emulator powered by the Amazon Polly API. It converts your text to speech with any Polly voices.
 
-# [**Website** :computer: :earth_americas:](https://textreader.pro)
-
 ## Features
 
 - TTS processing powered by Amazon Polly and Google Wavenet
