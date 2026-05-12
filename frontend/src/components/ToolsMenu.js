@@ -3,7 +3,12 @@ import { FiBox } from 'react-icons/fi'
 
 const tools = [
   {
-    name: '🎙️ VoiceBox Voice Cloning',
+    name: '🔥 Unlimited Local TTS',
+    url: 'https://huggingface.co/spaces/Supertone/supertonic-3',
+    credits: 'Supertone',
+  },
+  {
+    name: '🎙️ Voice Clone TTS',
     url: 'https://voicebox.sh',
     credits: 'Jamie Pine and Qwen',
   },
@@ -13,7 +18,7 @@ const tools = [
     credits: 'Supa and Zonian',
   },
   {
-    name: '🏅 Badge Alerts',
+    name: '🏅 Twitch Badge Alerts',
     url: 'https://www.streamdatabase.com/twitch/global-badges',
     credits: 'Ravenbtw',
   },
