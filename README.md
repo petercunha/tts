@@ -13,8 +13,3 @@ This is a text to speech emulator powered by the Amazon Polly API. It converts y
 ## Looking for other voices?
 
 If you can't find the TTS voice you're looking for on TextReader.Pro, check out [LazyPyro TTS](https://lazypy.ro/tts), which is an actively maintained project with more voices to choose from.
-
-
-## Code of Conduct
-
-- Don't spam the API, I host it myself so it costs money! Please be respectful.
