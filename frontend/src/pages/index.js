@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactAudioPlayer from 'react-audio-player'
 import Layout from '../components/layout'
-import Footer from './footer'
+// import Footer from './footer'
 import greet from '../lib/greeting'
 import solveChallenge from '../lib/pow'
 
@@ -225,9 +225,9 @@ class Index extends React.Component {
           autoPlay
           controls
         />
-
-        <Footer />
-      </Layout>
+        
+        {/* <Footer /> */}
+        </Layout>
     )
   }
 }
